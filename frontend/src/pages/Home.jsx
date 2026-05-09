@@ -29,35 +29,35 @@ const StoryCard = ({ img, couple, location }) => {
 };
 
 const Home = () => {
-  const [images, setImages] = useState([]);
+  const [allImages, setAllImages] = useState([]);
+  const [allWeddings, setAllWeddings] = useState([]);
+  const [preWeddingWeddings, setPreWeddingWeddings] = useState([]);
+  const [weddingWeddings, setWeddingWeddings] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/gallery').then((res) => setImages(res.data));
+    // Fetch all gallery images
+    axios.get('http://localhost:5000/api/gallery').then((res) => setAllImages(res.data));
+    
+    // Fetch all weddings
+    axios.get('http://localhost:5000/api/weddings').then((res) => {
+      setAllWeddings(res.data);
+      setPreWeddingWeddings(res.data.filter((w) => w.category === 'PreWedding'));
+      setWeddingWeddings(res.data.filter((w) => w.category === 'Weddings'));
+    });
   }, []);
 
-  // Fallback cinematic visuals (use backend gallery if available)
-  const featured = images.slice(0, 6);
-
-  const storyImgs =
-    featured.length > 0
-      ? featured.map((x) => x.imageUrl)
-      : [
-          'https://images.unsplash.com/photo-1523438097201-512ae6f8d4e8?auto=format&fit=crop&w=1200&q=80',
-          'https://images.unsplash.com/photo-1523438097201-512ae6f8d4e8?auto=format&fit=crop&w=1200&q=60',
-          'https://images.unsplash.com/photo-1529636798451-6fdbd8ce9f0b?auto=format&fit=crop&w=1200&q=80',
-          'https://images.unsplash.com/photo-1523438097201-512ae6f8d4e8?auto=format&fit=crop&w=1200&q=70',
-          'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
-          'https://images.unsplash.com/photo-1529636798451-6fdbd8ce9f0b?auto=format&fit=crop&w=1200&q=70',
-        ];
-
-  const stories = [
-    { couple: 'Aalok & Anika', location: 'Udaipur Wedding', img: storyImgs[0] },
-    { couple: 'Riya & Kabir', location: 'Jaipur Heritage', img: storyImgs[1] },
-    { couple: 'Mehul & Sanya', location: 'Goa Beach Vows', img: storyImgs[2] },
-    { couple: 'Neha & Aryan', location: 'Kerala Backwaters', img: storyImgs[3] },
-    { couple: 'Divya & Karan', location: 'Delhi Royal Affair', img: storyImgs[4] },
-    { couple: 'Sam & Sana', location: 'Mumbai Night Ceremony', img: storyImgs[5] },
+  // Fallback cinematic visuals
+  const featured = allImages.slice(0, 6);
+  const fallbackImages = [
+    'https://images.unsplash.com/photo-1523438097201-512ae6f8d4e8?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1523438097201-512ae6f8d4e8?auto=format&fit=crop&w=1200&q=60',
+    'https://images.unsplash.com/photo-1529636798451-6fdbd8ce9f0b?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1523438097201-512ae6f8d4e8?auto=format&fit=crop&w=1200&q=70',
+    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1529636798451-6fdbd8ce9f0b?auto=format&fit=crop&w=1200&q=70',
   ];
+
+  const storyWeddings = allWeddings.slice(0, 6).length > 0 ? allWeddings.slice(0, 6) : [];
 
   return (
     <div className="bg-black text-white">
@@ -120,7 +120,7 @@ const Home = () => {
               <div className="relative overflow-hidden rounded-3xl border border-white/10">
                 <div className="absolute inset-0 bg-black/45 z-10" />
                 <img
-                  src={images[0]?.imageUrl || 'https://images.unsplash.com/photo-1520854221256-1741c1fcb2ea?auto=format&fit=crop&w=1600&q=80'}
+                  src={allImages[0]?.imageUrl || fallbackImages[0]}
                   alt="Cinematic wedding"
                   className="w-full h-[520px] object-cover scale-105 hero-zoom"
                 />
@@ -156,12 +156,19 @@ const Home = () => {
           </div>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {stories.slice(0, 3).map((s) => (
-              <div key={s.couple} className="rounded-2xl border border-white/10 overflow-hidden bg-white/5">
-                <img src={s.img} alt={s.couple} className="h-56 w-full object-cover" />
+            {preWeddingWeddings.slice(0, 3).map((wedding) => (
+              <div key={wedding._id} className="rounded-2xl border border-white/10 overflow-hidden bg-white/5 group cursor-pointer hover:border-amber-400/50 transition">
+                <div className="relative overflow-hidden h-56">
+                  <img 
+                    src={wedding.featuredImage || fallbackImages[0]} 
+                    alt={wedding.coupleName} 
+                    className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" 
+                  />
+                </div>
                 <div className="p-5">
-                  <div className="text-white/90 font-medium">{s.couple}</div>
-                  <div className="text-white/70 text-sm mt-1">{s.location}</div>
+                  <div className="text-white/90 font-medium">{wedding.coupleName}</div>
+                  <div className="text-white/70 text-sm mt-1">{wedding.location}</div>
+                  <div className="text-xs text-pink-300 mt-2">PreWedding</div>
                 </div>
               </div>
             ))}
@@ -181,15 +188,19 @@ const Home = () => {
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {stories.slice(3, 5).map((s) => (
-              <div key={s.couple} className="relative overflow-hidden rounded-3xl border border-white/10">
-                <img src={s.img} alt={s.couple} className="h-[320px] w-full object-cover transition-transform duration-700 hover:scale-110" />
+            {weddingWeddings.slice(0, 2).map((wedding) => (
+              <div key={wedding._id} className="relative overflow-hidden rounded-3xl border border-white/10 group cursor-pointer hover:border-amber-400/50 transition">
+                <img 
+                  src={wedding.featuredImage || fallbackImages[0]} 
+                  alt={wedding.coupleName} 
+                  className="h-[320px] w-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                />
                 <div className="absolute inset-0 bg-black/45" />
                 <div className="absolute inset-0 p-6 flex items-end">
                   <div>
-                    <div className="text-amber-300 text-xs tracking-widest uppercase">Featured</div>
-                    <div className="mt-2 font-serif italic text-2xl">{s.couple}</div>
-                    <div className="mt-2 text-white/80 text-sm">{s.location}</div>
+                    <div className="text-amber-300 text-xs tracking-widest uppercase">Wedding</div>
+                    <div className="mt-2 font-serif italic text-2xl">{wedding.coupleName}</div>
+                    <div className="mt-2 text-white/80 text-sm">{wedding.location}</div>
                   </div>
                 </div>
               </div>
@@ -206,8 +217,8 @@ const Home = () => {
           </h2>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {stories.map((s) => (
-              <StoryCard key={s.couple} img={s.img} couple={s.couple} location={s.location} />
+            {storyWeddings.map((wedding) => (
+              <StoryCard key={wedding._id} img={wedding.featuredImage || fallbackImages[0]} couple={wedding.coupleName} location={wedding.location} />
             ))}
           </div>
         </div>
@@ -225,7 +236,7 @@ const Home = () => {
           </div>
 
           <div className="mt-10">
-            <GalleryGrid images={images} />
+            <GalleryGrid images={allImages} />
           </div>
         </div>
       </section>
@@ -241,7 +252,7 @@ const Home = () => {
               <div key={i} className="rounded-3xl border border-white/10 overflow-hidden bg-white/5">
                 <div className="relative">
                   <img
-                    src={images[i + 1]?.imageUrl || 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=70'}
+                    src={allImages[i + 1]?.imageUrl || fallbackImages[i + 1]}
                     alt="Film"
                     className="h-56 w-full object-cover"
                   />

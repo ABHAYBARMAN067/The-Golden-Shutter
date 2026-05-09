@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const galleryRoutes = require('./routes/galleryRoutes');
+const weddingRoutes = require('./routes/weddingRoutes');
 
 dotenv.config();
 connectDB();
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
 
 app.use('/api/gallery', galleryRoutes);
+app.use('/api/weddings', weddingRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

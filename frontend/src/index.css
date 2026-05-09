@@ -1,10 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #000;
-  --text: #fff;
-  --accent: #f59e0b; /* amber-500 */
+  --bg: #000000; /* Black */
+  --text: #FFFFFF; /* White */
+  --card: #1F2124; /* Dark Gray */
+  --border: #69727D; /* Gray Border/Input */
+  --overlay-30: rgba(0, 0, 0, 0.3);
+  --overlay-10: rgba(0, 0, 0, 0.1);
 }
+
 
 html {
   scroll-behavior: smooth;

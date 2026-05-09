@@ -52,9 +52,9 @@ const WeddingCollection = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#F5F1E8] text-[#2C2C2C] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-400 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B7653] mx-auto mb-4"></div>
           <p>Loading wedding collection...</p>
         </div>
       </div>
@@ -63,17 +63,17 @@ const WeddingCollection = () => {
 
   if (!wedding) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#F5F1E8] text-[#2C2C2C] flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-serif mb-4">Wedding not found</h2>
-          <p className="text-white/70">Sorry, we couldn't find this wedding collection.</p>
+          <p className="text-[#6A6A6A]">Sorry, we couldn't find this wedding collection.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#F5F1E8] text-[#2C2C2C]">
       {/* Offset for fixed navbar */}
       <div className="h-16" aria-hidden />
 
@@ -88,14 +88,14 @@ const WeddingCollection = () => {
 
         <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-10">
           <div className="max-w-3xl">
-            <div className="text-amber-300 text-xs tracking-widest uppercase font-semibold">
+            <div className="text-[#9B7653] text-xs tracking-widest uppercase font-semibold">
               {wedding.category}
             </div>
-            <h1 className="font-serif italic text-4xl md:text-5xl mt-3 leading-tight">
+            <h1 className="font-serif italic text-4xl md:text-5xl mt-3 leading-tight text-white">
               {wedding.coupleName}
             </h1>
-            <div className="text-white/80 mt-4 text-lg">{wedding.location}</div>
-            <div className="text-white/70 mt-4 text-sm">
+            <div className="text-white/90 mt-4 text-lg">{wedding.location}</div>
+            <div className="text-white/80 mt-4 text-sm">
               {new Date(wedding.weddingDate).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -107,11 +107,11 @@ const WeddingCollection = () => {
       </div>
 
       {/* Content Section */}
-      <div className="w-full px-0 py-12 md:py-16">
+      <div className="w-full px-6 md:px-12 py-12 md:py-16 max-w-7xl mx-auto">
         {/* Description */}
         {wedding.description && (
           <div className="mb-12">
-            <p className="text-white/70 text-base leading-relaxed max-w-3xl">
+            <p className="text-[#6A6A6A] text-base leading-relaxed max-w-3xl">
               {wedding.description}
             </p>
           </div>
@@ -119,10 +119,10 @@ const WeddingCollection = () => {
 
         {/* Gallery Section */}
         <div>
-          <h2 className="text-3xl font-serif italic mb-8">Wedding Gallery</h2>
+          <h2 className="text-3xl font-serif italic mb-8 text-[#2C2C2C]">Wedding Gallery</h2>
 
           {photos.length === 0 ? (
-            <div className="text-white/50 text-center py-12">No photos uploaded yet.</div>
+            <div className="text-[#9B7653]/60 text-center py-12">No photos uploaded yet.</div>
           ) : (
             <>
               {/* Masonry Gallery */}
@@ -135,13 +135,13 @@ const WeddingCollection = () => {
                   return (
                     <div
                       key={photo._id}
-                      className={`${gridClass} overflow-hidden shadow-lg group relative cursor-pointer`}
+                      className={`${gridClass} overflow-hidden shadow-md group relative cursor-pointer rounded-2xl border border-[#9B7653]/10`}
                       onClick={() => handlePhotoClick(idx)}
                     >
                       <img
                         src={photo.imageUrl}
                         alt={`Gallery ${idx + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-500"
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                       />
                     </div>
                   );
@@ -153,12 +153,12 @@ const WeddingCollection = () => {
 
         {/* Videos Section (if available) */}
         {wedding.videos && wedding.videos.length > 0 && (
-          <div className="mt-16 pt-12 border-t border-white/10">
-            <h2 className="text-3xl font-serif italic mb-8">Cinematic Films</h2>
+          <div className="mt-16 pt-12 border-t border-[#9B7653]/20">
+            <h2 className="text-3xl font-serif italic mb-8 text-[#2C2C2C]">Cinematic Films</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {wedding.videos.map((videoUrl, idx) => (
-                <div key={idx} className="rounded-2xl overflow-hidden border border-white/10 bg-black/20">
-                  <div className="relative h-64 md:h-72 bg-black/40">
+                <div key={idx} className="rounded-2xl overflow-hidden border border-[#9B7653]/20 bg-white shadow-sm">
+                  <div className="relative h-64 md:h-72 bg-[#F5F1E8]">
                     <iframe
                       width="100%"
                       height="100%"
@@ -177,17 +177,17 @@ const WeddingCollection = () => {
         )}
 
         {/* CTA Section */}
-        <div className="mt-16 pt-12 border-t border-white/10">
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/30 p-8 md:p-12">
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-black/40 to-transparent" />
+        <div className="mt-16 pt-12 border-t border-[#9B7653]/20">
+          <div className="relative overflow-hidden rounded-3xl border border-[#9B7653]/20 bg-white p-8 md:p-12 shadow-lg">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#9B7653]/5 via-transparent to-transparent" />
             <div className="relative">
-              <h3 className="text-3xl font-serif italic">Love What You See?</h3>
-              <p className="text-white/70 mt-3 max-w-2xl">
+              <h3 className="text-3xl font-serif italic text-[#2C2C2C]">Love What You See?</h3>
+              <p className="text-[#6A6A6A] mt-3 max-w-2xl">
                 We'd love to capture your special moments too. Book a consultation with us today.
               </p>
               <button
                 onClick={() => setBookingModalOpen(true)}
-                className="mt-6 rounded-full px-8 py-3 bg-amber-400 text-black font-semibold hover:bg-amber-300 transition-colors"
+                className="mt-6 rounded-full px-8 py-3 bg-[#9B7653] text-white font-semibold hover:bg-[#8B6B48] transition-colors"
               >
                 Book Your Shoot
               </button>

@@ -10,7 +10,7 @@ const StoryCard = ({ wedding, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 cursor-pointer hover:border-amber-400/50 transition-all duration-300"
+      className="group relative overflow-hidden rounded-2xl border border-[#9B7653]/30 bg-white cursor-pointer hover:border-[#9B7653]/60 transition-all duration-300 shadow-md"
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-100 transition-opacity duration-300 group-hover:opacity-60 z-10" />
       <img
@@ -21,8 +21,8 @@ const StoryCard = ({ wedding, onClick }) => {
 
       <div className="absolute inset-0 p-5 flex items-end z-20">
         <div className="w-full">
-          <div className="inline-flex items-center gap-2 text-amber-300 text-xs tracking-widest uppercase mb-2">
-            <span className="h-px w-8 bg-amber-400/70" />
+          <div className="inline-flex items-center gap-2 text-[#9B7653] text-xs tracking-widest uppercase mb-2">
+            <span className="h-px w-8 bg-[#9B7653]/70" />
             Featured Story
           </div>
           <h3 className="text-xl sm:text-2xl font-serif text-white leading-tight">
@@ -74,7 +74,7 @@ const Home = () => {
   const storyWeddings = allWeddings.slice(0, 6).length > 0 ? allWeddings.slice(0, 6) : [];
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#F5F1E8] text-[#2C2C2C]">
       {/* Offset for fixed navbar */}
       <div className="h-16" aria-hidden />
 
@@ -84,15 +84,15 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center py-14 sm:py-20">
             {/* Left */}
             <div className="lg:col-span-6">
-              <div className="inline-flex items-center gap-3 text-amber-300/90 text-xs tracking-widest uppercase mb-5">
-                <span className="h-px w-10 bg-amber-400/70" />
+              <div className="inline-flex items-center gap-3 text-[#9B7653]/90 text-xs tracking-widest uppercase mb-5">
+                <span className="h-px w-10 bg-[#9B7653]/70" />
                 Cinematic Editorial Wedding Photography
               </div>
 
               <h1 className="font-serif italic text-4xl sm:text-5xl leading-tight">
                 PRESERVING THE MAGIC OF YOUR SPECIAL DAY
               </h1>
-              <p className="mt-5 text-white/80 max-w-xl text-sm sm:text-base leading-relaxed">
+              <p className="mt-5 text-[#4A4A4A] max-w-xl text-sm sm:text-base leading-relaxed">
                 We capture emotions, chaos, laughter, and timeless memories in a cinematic editorial
                 style.
               </p>
@@ -101,7 +101,7 @@ const Home = () => {
                 <button
                   type="button"
                   onClick={() => document.getElementById('weddings')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="rounded-full px-6 py-3 border border-amber-400/40 bg-white/5 hover:bg-white/10 transition-colors text-sm font-semibold"
+                  className="rounded-full px-6 py-3 border border-[#9B7653]/40 bg-[#9B7653]/5 hover:bg-[#9B7653]/10 transition-colors text-sm font-semibold text-[#2C2C2C]"
                 >
                   Explore Weddings
                 </button>
@@ -109,7 +109,7 @@ const Home = () => {
                 <button
                   type="button"
                   onClick={() => setBookingModalOpen(true)}
-                  className="rounded-full px-6 py-3 bg-amber-400 text-black hover:bg-amber-300 transition-colors text-sm font-semibold"
+                  className="rounded-full px-6 py-3 bg-[#9B7653] text-white hover:bg-[#8B6B48] transition-colors text-sm font-semibold"
                 >
                   Book Your Shoot
                 </button>
@@ -121,9 +121,9 @@ const Home = () => {
                   { k: '500+', v: 'Stories' },
                   { k: '4.9', v: 'Rating' },
                 ].map((x) => (
-                  <div key={x.v} className="p-4 rounded-2xl border border-white/10 bg-white/5">
-                    <div className="text-amber-300 text-lg font-semibold">{x.k}</div>
-                    <div className="text-xs text-white/70 mt-1">{x.v}</div>
+                  <div key={x.v} className="p-4 rounded-2xl border border-[#9B7653]/20 bg-[#9B7653]/5">
+                    <div className="text-[#9B7653] text-lg font-semibold">{x.k}</div>
+                    <div className="text-xs text-[#6A6A6A] mt-1">{x.v}</div>
                   </div>
                 ))}
               </div>
@@ -131,8 +131,8 @@ const Home = () => {
 
             {/* Right */}
             <div className="lg:col-span-6">
-              <div className="relative overflow-hidden rounded-3xl border border-white/10">
-                <div className="absolute inset-0 bg-black/45 z-10" />
+              <div className="relative overflow-hidden rounded-3xl border border-[#9B7653]/30">
+                <div className="absolute inset-0 bg-black/20 z-10" />
                 <img
                   src={allWeddings[0]?.featuredImage || allImages[0]?.imageUrl || fallbackImages[0]}
                   alt="Cinematic wedding"
@@ -141,13 +141,13 @@ const Home = () => {
 
                 <div className="absolute inset-0 z-20 p-6 sm:p-8 flex flex-col justify-end">
                   <div className="max-w-md">
-                    <div className="text-amber-300 text-xs tracking-widest uppercase">
-                      Luxury • Gold accents • Black overlay
+                    <div className="text-[#9B7653] text-xs tracking-widest uppercase">
+                      Luxury • Brown accents • Black overlay
                     </div>
-                    <h2 className="mt-2 font-serif italic text-3xl leading-tight">
+                    <h2 className="mt-2 font-serif italic text-3xl leading-tight text-white">
                       A cinematic way to relive every moment.
                     </h2>
-                    <p className="mt-3 text-white/80 text-sm leading-relaxed">
+                    <p className="mt-3 text-white/90 text-sm leading-relaxed">
                       From chaotic laughter to quiet vows—your story, preserved like a film.
                     </p>
                   </div>
@@ -159,20 +159,20 @@ const Home = () => {
       </section>
 
       {/* 2) PreWedding */}
-      <section id="prewedding" className="py-16">
+      <section id="prewedding" className="py-16 bg-[#F5F1E8]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-6 flex-col sm:flex-row">
             <div>
-              <h2 className="font-serif italic text-3xl sm:text-4xl">PreWedding Stories</h2>
-              <p className="text-white/70 mt-2">Small moments. Big emotions.</p>
+              <h2 className="font-serif italic text-3xl sm:text-4xl text-[#2C2C2C]">PreWedding Stories</h2>
+              <p className="text-[#6A6A6A] mt-2">Small moments. Big emotions.</p>
             </div>
-            <div className="text-amber-300 text-sm tracking-widest uppercase">Editorial • Cinematic • Timeless</div>
+            <div className="text-[#9B7653] text-sm tracking-widest uppercase">Editorial • Cinematic • Timeless</div>
           </div>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {preWeddingWeddings.slice(0, 3).map((wedding) => (
               <Link key={wedding._id} to={`/wedding/${wedding.slug || wedding._id}`}>
-                <div className="rounded-2xl border border-white/10 overflow-hidden bg-white/5 group cursor-pointer hover:border-amber-400/50 transition h-full">
+                <div className="rounded-2xl border border-[#9B7653]/20 overflow-hidden bg-[#FFFFFF] group cursor-pointer hover:border-[#9B7653]/50 transition h-full shadow-sm">
                   <div className="relative overflow-hidden h-56">
                     <img
                       src={wedding.featuredImage || fallbackImages[0]}
@@ -181,9 +181,9 @@ const Home = () => {
                     />
                   </div>
                   <div className="p-5">
-                    <div className="text-white/90 font-medium">{wedding.coupleName}</div>
-                    <div className="text-white/70 text-sm mt-1">{wedding.location}</div>
-                    <div className="text-xs text-pink-300 mt-2">PreWedding</div>
+                    <div className="text-[#2C2C2C] font-medium">{wedding.coupleName}</div>
+                    <div className="text-[#6A6A6A] text-sm mt-1">{wedding.location}</div>
+                    <div className="text-xs text-[#9B7653] mt-2">PreWedding</div>
                   </div>
                 </div>
               </Link>
@@ -193,20 +193,20 @@ const Home = () => {
       </section>
 
       {/* 3) Weddings */}
-      <section id="weddings" className="py-16 bg-white/[0.02]">
+      <section id="weddings" className="py-16 bg-[#FAFAF8]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-6 flex-col sm:flex-row">
             <div>
-              <h2 className="font-serif italic text-3xl sm:text-4xl">Weddings</h2>
-              <p className="text-white/70 mt-2">Preserve the chaos, keep the glow.</p>
+              <h2 className="font-serif italic text-3xl sm:text-4xl text-[#2C2C2C]">Weddings</h2>
+              <p className="text-[#6A6A6A] mt-2">Preserve the chaos, keep the glow.</p>
             </div>
-            <div className="text-amber-300 text-sm tracking-widest uppercase">Slow zoom • Black overlay • Gold</div>
+            <div className="text-[#9B7653] text-sm tracking-widest uppercase">Slow zoom • Black overlay • Brown</div>
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
             {weddingWeddings.slice(0, 2).map((wedding) => (
               <Link key={wedding._id} to={`/wedding/${wedding.slug || wedding._id}`}>
-                <div className="relative overflow-hidden rounded-3xl border border-white/10 group cursor-pointer hover:border-amber-400/50 transition h-full">
+                <div className="relative overflow-hidden rounded-3xl border border-[#9B7653]/30 group cursor-pointer hover:border-[#9B7653]/60 transition h-full shadow-md">
                   <img
                     src={wedding.featuredImage || fallbackImages[0]}
                     alt={wedding.coupleName}
@@ -215,8 +215,8 @@ const Home = () => {
                   <div className="absolute inset-0 bg-black/45" />
                   <div className="absolute inset-0 p-6 flex items-end">
                     <div>
-                      <div className="text-amber-300 text-xs tracking-widest uppercase">Wedding</div>
-                      <div className="mt-2 font-serif italic text-2xl">{wedding.coupleName}</div>
+                      <div className="text-[#9B7653] text-xs tracking-widest uppercase">Wedding</div>
+                      <div className="mt-2 font-serif italic text-2xl text-white">{wedding.coupleName}</div>
                       <div className="mt-2 text-white/80 text-sm">{wedding.location}</div>
                     </div>
                   </div>
@@ -228,9 +228,9 @@ const Home = () => {
       </section>
 
       {/* 4) Featured Wedding Stories */}
-      <section className="py-16" aria-label="Featured wedding stories">
+      <section className="py-16 bg-[#F5F1E8]" aria-label="Featured wedding stories">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="font-serif italic text-3xl sm:text-4xl">
+          <h2 className="font-serif italic text-3xl sm:text-4xl text-[#2C2C2C]">
             Capturing the Madness &amp; Chaos We Call Weddings
           </h2>
 
@@ -245,14 +245,14 @@ const Home = () => {
       </section>
 
       {/* 5) Portfolio */}
-      <section id="portfolio" className="py-16 bg-white/[0.02]">
+      <section id="portfolio" className="py-16 bg-[#FAFAF8]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-6 flex-col sm:flex-row">
             <div>
-              <h2 className="font-serif italic text-3xl sm:text-4xl">Portfolio</h2>
-              <p className="text-white/70 mt-2">A living gallery of your favorite frames.</p>
+              <h2 className="font-serif italic text-3xl sm:text-4xl text-[#2C2C2C]">Portfolio</h2>
+              <p className="text-[#6A6A6A] mt-2">A living gallery of your favorite frames.</p>
             </div>
-            <div className="text-amber-300 text-sm tracking-widest uppercase">Hover to zoom</div>
+            <div className="text-[#9B7653] text-sm tracking-widest uppercase">Hover to zoom</div>
           </div>
 
           <div className="mt-10">
@@ -262,14 +262,14 @@ const Home = () => {
       </section>
 
       {/* 6) Films */}
-      <section id="films" className="py-16">
+      <section id="films" className="py-16 bg-[#F5F1E8]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="font-serif italic text-3xl sm:text-4xl">Films</h2>
-          <p className="text-white/70 mt-2">Cinematic edits for your biggest chapters.</p>
+          <h2 className="font-serif italic text-3xl sm:text-4xl text-[#2C2C2C]">Films</h2>
+          <p className="text-[#6A6A6A] mt-2">Cinematic edits for your biggest chapters.</p>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="rounded-3xl border border-white/10 overflow-hidden bg-white/5">
+              <div key={i} className="rounded-3xl border border-[#9B7653]/20 overflow-hidden bg-white shadow-sm">
                 <div className="relative">
                   <img
                     src={allImages[i + 1]?.imageUrl || fallbackImages[i + 1]}
@@ -278,14 +278,14 @@ const Home = () => {
                   />
                   <div className="absolute inset-0 bg-black/40" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-14 h-14 rounded-full border border-amber-400/50 bg-black/30 flex items-center justify-center">
-                      <div className="w-0 h-0 border-t-[8px] border-b-[8px] border-l-[12px] border-l-amber-300 ml-1" />
+                    <div className="w-14 h-14 rounded-full border border-[#9B7653]/50 bg-black/30 flex items-center justify-center">
+                      <div className="w-0 h-0 border-t-[8px] border-b-[8px] border-l-[12px] border-l-[#9B7653] ml-1" />
                     </div>
                   </div>
                 </div>
                 <div className="p-5">
-                  <div className="text-white/90 font-medium">{['Cinematic Trailer', 'Vows & Highlights', 'Golden Moments'][i]}</div>
-                  <div className="text-white/70 text-sm mt-1">Editorial • Slow motion • Gold</div>
+                  <div className="text-[#2C2C2C] font-medium">{['Cinematic Trailer', 'Vows & Highlights', 'Golden Moments'][i]}</div>
+                  <div className="text-[#6A6A6A] text-sm mt-1">Editorial • Slow motion • Brown</div>
                 </div>
               </div>
             ))}
@@ -294,31 +294,31 @@ const Home = () => {
       </section>
 
       {/* 7) Contact */}
-      <section id="contact" className="py-16 bg-white/[0.02]">
+      <section id="contact" className="py-16 bg-[#FAFAF8]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="font-serif italic text-3xl sm:text-4xl">Contact</h2>
-          <p className="text-white/70 mt-2">Tell us the date—let’s craft your story.</p>
+          <h2 className="font-serif italic text-3xl sm:text-4xl text-[#2C2C2C]">Contact</h2>
+          <p className="text-[#6A6A6A] mt-2">Tell us the date—let's craft your story.</p>
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <div className="text-amber-300 text-xs tracking-widest uppercase">Studio</div>
-              <div className="mt-3 text-2xl font-serif italic">THE GOLDEN SHUTTER</div>
-              <p className="text-white/70 mt-3 text-sm leading-relaxed">
-                We’re based in India and shoot across cities for weddings, preweddings, and cinematic films.
+            <div className="rounded-3xl border border-[#9B7653]/20 bg-white p-6 shadow-sm">
+              <div className="text-[#9B7653] text-xs tracking-widest uppercase">Studio</div>
+              <div className="mt-3 text-2xl font-serif italic text-[#2C2C2C]">THE GOLDEN SHUTTER</div>
+              <p className="text-[#6A6A6A] mt-3 text-sm leading-relaxed">
+                We're based in India and shoot across cities for weddings, preweddings, and cinematic films.
               </p>
-              <div className="mt-5 space-y-2 text-sm text-white/80">
+              <div className="mt-5 space-y-2 text-sm text-[#4A4A4A]">
                 <div>
-                  <span className="text-amber-300">Email:</span> hello@thegoldenshutter.com
+                  <span className="text-[#9B7653]">Email:</span> hello@thegoldenshutter.com
                 </div>
                 <div>
-                  <span className="text-amber-300">Phone:</span> +91 99999 99999
+                  <span className="text-[#9B7653]">Phone:</span> +91 99999 99999
                 </div>
               </div>
             </div>
 
             {/* Contact Form */}
-            <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-white/5 p-6">
-              <h3 className="text-lg font-serif italic text-white mb-4">Send us a Message</h3>
+            <div className="lg:col-span-2 rounded-3xl border border-[#9B7653]/20 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-serif italic text-[#2C2C2C] mb-4">Send us a Message</h3>
               <ContactForm />
             </div>
           </div>
@@ -326,13 +326,13 @@ const Home = () => {
       </section>
 
       {/* 8) Book */}
-      <section id="book" className="py-16">
+      <section id="book" className="py-16 bg-[#F5F1E8]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/30">
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 via-black/40 to-transparent" />
+          <div className="relative overflow-hidden rounded-3xl border border-[#9B7653]/30 bg-[#FAFAF8] shadow-lg">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#9B7653]/10 via-[#F5F1E8]/40 to-transparent" />
             <div className="relative p-8 sm:p-12">
-              <h2 className="font-serif italic text-3xl sm:text-5xl">Ready To Book?</h2>
-              <p className="text-white/80 mt-3 max-w-2xl">
+              <h2 className="font-serif italic text-3xl sm:text-5xl text-[#2C2C2C]">Ready To Book?</h2>
+              <p className="text-[#6A6A6A] mt-3 max-w-2xl">
                 Share your date and location. We’ll respond with package details and availability.
               </p>
 
@@ -340,14 +340,14 @@ const Home = () => {
                 <button
                   type="button"
                   onClick={() => setBookingModalOpen(true)}
-                  className="rounded-full px-6 py-3 bg-amber-400 text-black hover:bg-amber-300 transition-colors text-sm font-semibold"
+                  className="rounded-full px-6 py-3 bg-[#9B7653] text-white hover:bg-[#8B6B48] transition-colors text-sm font-semibold"
                 >
                   Book Your Shoot
                 </button>
                 <button
                   type="button"
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="rounded-full px-6 py-3 border border-amber-400/40 bg-white/5 hover:bg-white/10 transition-colors text-sm font-semibold"
+                  className="rounded-full px-6 py-3 border border-[#9B7653]/40 bg-white hover:bg-[#F5F1E8] transition-colors text-sm font-semibold text-[#2C2C2C]"
                 >
                   Back to Top
                 </button>

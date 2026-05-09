@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
+import API_URL from '../api';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -42,7 +43,7 @@ const AdminDashboard = () => {
     setLoginError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', loginForm);
+      const res = await axios.post(`${API_URL}/api/auth/login`, loginForm);
       localStorage.setItem('adminToken', res.data.token);
       setIsAuthenticated(true);
       setLoginForm({ username: '', password: '' });
@@ -95,7 +96,7 @@ const AdminDashboard = () => {
 
   const fetchWeddings = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/weddings', {
+      const res = await axios.get(`${API_URL}/api/weddings`, {
         headers: getAuthHeaders(),
       });
       setWeddings(res.data);
@@ -107,7 +108,7 @@ const AdminDashboard = () => {
 
   const fetchWeddingPhotos = async (weddingId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/gallery?weddingId=${weddingId}`);
+      const res = await axios.get(`${API_URL}/api/gallery?weddingId=${weddingId}`);
       setWeddingPhotos(res.data);
     } catch (err) {
       console.error('Error fetching photos:', err);
@@ -137,7 +138,7 @@ const AdminDashboard = () => {
         formData.featuredImage = await toBase64(featuredImageFile);
       }
 
-      const res = await axios.post('http://localhost:5000/api/weddings', formData, {
+      const res = await axios.post(`${API_URL}/api/weddings`, formData, {
         headers: getAuthHeaders(),
       });
       setWeddings((prev) => [...prev, res.data]);
@@ -179,7 +180,7 @@ const AdminDashboard = () => {
         updateData.featuredImage = await toBase64(editingFeaturedImageFile);
       }
 
-      const res = await axios.put(`http://localhost:5000/api/weddings/${editingWedding._id}`, updateData, {
+      const res = await axios.put(`${API_URL}/api/weddings/${editingWedding._id}`, updateData, {
         headers: getAuthHeaders(),
       });
       setWeddings((prev) => prev.map((w) => (w._id === res.data._id ? res.data : w)));
@@ -199,7 +200,7 @@ const AdminDashboard = () => {
     if (!confirm('Delete this wedding and all its photos?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/weddings/${weddingId}`, {
+      await axios.delete(`${API_URL}/api/weddings/${weddingId}`, {
         headers: getAuthHeaders(),
       });
       setWeddings((prev) => prev.filter((w) => w._id !== weddingId));
@@ -264,7 +265,7 @@ const AdminDashboard = () => {
 
       const base64 = await toBase64(photoFile);
 
-      const res = await axios.post('http://localhost:5000/api/gallery/upload', {
+      const res = await axios.post(`${API_URL}/api/gallery/upload`, {
         imageUrl: base64,
         aspectRatio: photoAspectRatio,
         category: 'Wedding',
@@ -290,7 +291,7 @@ const AdminDashboard = () => {
     if (!confirm('Delete this photo?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/gallery/${photoId}`, {
+      await axios.delete(`${API_URL}/api/gallery/${photoId}`, {
         headers: getAuthHeaders(),
       });
       setWeddingPhotos((prev) => prev.filter((p) => p._id !== photoId));

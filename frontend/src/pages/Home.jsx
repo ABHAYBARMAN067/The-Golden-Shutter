@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import GalleryGrid from '../components/GalleryGrid';
 import BookingModal from '../components/BookingModal';
+import API_URL from '../api';
 
 const StoryCard = ({ wedding, onClick }) => {
   return (
@@ -43,13 +44,13 @@ const Home = () => {
   useEffect(() => {
     // Fetch all gallery images
     axios
-      .get('http://localhost:5000/api/gallery')
+      .get(`${API_URL}/api/gallery`)
       .then((res) => setAllImages(res.data))
       .catch((err) => console.error('Error fetching gallery:', err));
 
     // Fetch all weddings
     axios
-      .get('http://localhost:5000/api/weddings')
+      .get(`${API_URL}/api/weddings`)
       .then((res) => {
         setAllWeddings(res.data);
         setPreWeddingWeddings(res.data.filter((w) => w.category === 'PreWedding'));

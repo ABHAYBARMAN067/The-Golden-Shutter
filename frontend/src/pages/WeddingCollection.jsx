@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Lightbox from '../components/Lightbox';
 import BookingModal from '../components/BookingModal';
+import API_URL from '../api';
 
 const WeddingCollection = () => {
   const { id } = useParams();
@@ -19,12 +20,12 @@ const WeddingCollection = () => {
       setLoading(true);
       try {
         // Fetch wedding by slug/id
-        const weddingRes = await axios.get(`http://localhost:5000/api/weddings/${id}`);
+        const weddingRes = await axios.get(`${API_URL}/api/weddings/${id}`);
         const weddingData = weddingRes.data;
         setWedding(weddingData);
 
         // Fetch photos for this wedding
-        const photosRes = await axios.get(`http://localhost:5000/api/gallery?weddingId=${weddingData._id}`);
+        const photosRes = await axios.get(`${API_URL}/api/gallery?weddingId=${weddingData._id}`);
         setPhotos(photosRes.data);
       } catch (err) {
         console.error('Failed to fetch wedding collection:', err);

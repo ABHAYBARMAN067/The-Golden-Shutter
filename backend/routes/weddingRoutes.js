@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const authenticateAdmin = require('../middleware/authMiddleware');
 const {
   getAllWeddings,
   getWeddingWithPhotos,
@@ -8,10 +9,10 @@ const {
   deleteWedding,
 } = require('../controllers/weddingController');
 
-router.get('/', getAllWeddings);
+router.get('/', authenticateAdmin, getAllWeddings);
 router.get('/:weddingId', getWeddingWithPhotos);
-router.post('/', createWedding);
-router.put('/:weddingId', updateWedding);
-router.delete('/:weddingId', deleteWedding);
+router.post('/', authenticateAdmin, createWedding);
+router.put('/:weddingId', authenticateAdmin, updateWedding);
+router.delete('/:weddingId', authenticateAdmin, deleteWedding);
 
 module.exports = router;

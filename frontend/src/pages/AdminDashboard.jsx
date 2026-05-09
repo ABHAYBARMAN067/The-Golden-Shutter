@@ -28,6 +28,38 @@ const AdminDashboard = () => {
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState(null);
 
+  const [loginForm, setLoginForm] = useState({ username: '', password: '' });
+  const [loginError, setLoginError] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('adminToken'));
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('adminToken');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoginError('');
+
+    try {
+      const res = await axios.post('http://localhost:5000/api/auth/login', loginForm);
+      localStorage.setItem('adminToken', res.data.token);
+      setIsAuthenticated(true);
+      setLoginForm({ username: '', password: '' });
+    } catch (err) {
+      setLoginError('Invalid username or password.');
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminToken');
+    setIsAuthenticated(false);
+    setActiveTab('dashboard');
+    setWeddings([]);
+    setSelectedWedding(null);
+    setWeddingPhotos([]);
+  };
+
   // ===== ANALYTICS =====
   const [analytics, setAnalytics] = useState({
     totalWeddings: 0,
@@ -36,10 +68,12 @@ const AdminDashboard = () => {
     recentInquiries: [],
   });
 
-  // Fetch weddings on component mount
+  // Fetch weddings once authenticated
   useEffect(() => {
-    fetchWeddings();
-  }, []);
+    if (isAuthenticated) {
+      fetchWeddings();
+    }
+  }, [isAuthenticated]);
 
   // Update analytics whenever weddings/photos change
   useEffect(() => {
@@ -61,7 +95,9 @@ const AdminDashboard = () => {
 
   const fetchWeddings = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/weddings');
+      const res = await axios.get('http://localhost:5000/api/weddings', {
+        headers: getAuthHeaders(),
+      });
       setWeddings(res.data);
     } catch (err) {
       console.error('Error fetching weddings:', err);
@@ -101,7 +137,9 @@ const AdminDashboard = () => {
         formData.featuredImage = await toBase64(featuredImageFile);
       }
 
-      const res = await axios.post('http://localhost:5000/api/weddings', formData);
+      const res = await axios.post('http://localhost:5000/api/weddings', formData, {
+        headers: getAuthHeaders(),
+      });
       setWeddings((prev) => [...prev, res.data]);
 
       setNewWeddingForm({
@@ -141,7 +179,9 @@ const AdminDashboard = () => {
         updateData.featuredImage = await toBase64(editingFeaturedImageFile);
       }
 
-      const res = await axios.put(`http://localhost:5000/api/weddings/${editingWedding._id}`, updateData);
+      const res = await axios.put(`http://localhost:5000/api/weddings/${editingWedding._id}`, updateData, {
+        headers: getAuthHeaders(),
+      });
       setWeddings((prev) => prev.map((w) => (w._id === res.data._id ? res.data : w)));
       setEditingWedding(null);
       setEditingFeaturedImageFile(null);
@@ -159,7 +199,9 @@ const AdminDashboard = () => {
     if (!confirm('Delete this wedding and all its photos?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/weddings/${weddingId}`);
+      await axios.delete(`http://localhost:5000/api/weddings/${weddingId}`, {
+        headers: getAuthHeaders(),
+      });
       setWeddings((prev) => prev.filter((w) => w._id !== weddingId));
       if (selectedWedding?._id === weddingId) {
         setSelectedWedding(null);
@@ -227,6 +269,8 @@ const AdminDashboard = () => {
         aspectRatio: photoAspectRatio,
         category: 'Wedding',
         weddingId: selectedWedding._id,
+      }, {
+        headers: getAuthHeaders(),
       });
 
       setWeddingPhotos((prev) => [res.data, ...prev]);
@@ -246,7 +290,9 @@ const AdminDashboard = () => {
     if (!confirm('Delete this photo?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/gallery/${photoId}`);
+      await axios.delete(`http://localhost:5000/api/gallery/${photoId}`, {
+        headers: getAuthHeaders(),
+      });
       setWeddingPhotos((prev) => prev.filter((p) => p._id !== photoId));
       alert('Photo deleted successfully!');
     } catch (err) {
@@ -265,6 +311,52 @@ const AdminDashboard = () => {
     }
     return map;
   }, [weddings, selectedWedding, weddingPhotos.length]);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl backdrop-blur-xl">
+          <div className="mb-6 text-center">
+            <div className="text-amber-300 text-xs tracking-widest uppercase">ADMIN LOGIN</div>
+            <h1 className="mt-4 text-3xl font-serif italic">Enter Your Admin Credentials</h1>
+            <p className="mt-2 text-white/70">Login is required to manage weddings and gallery uploads.</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm text-white/70 mb-2" htmlFor="username">Username</label>
+              <input
+                id="username"
+                type="text"
+                value={loginForm.username}
+                onChange={(e) => setLoginForm((prev) => ({ ...prev, username: e.target.value }))}
+                className="w-full rounded-xl border border-white/10 bg-black/70 px-4 py-3 text-white outline-none focus:border-amber-400"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-white/70 mb-2" htmlFor="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                value={loginForm.password}
+                onChange={(e) => setLoginForm((prev) => ({ ...prev, password: e.target.value }))}
+                className="w-full rounded-xl border border-white/10 bg-black/70 px-4 py-3 text-white outline-none focus:border-amber-400"
+                required
+              />
+            </div>
+            {loginError && <div className="text-sm text-red-300">{loginError}</div>}
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-amber-400 px-4 py-3 text-black font-semibold hover:bg-amber-300 transition"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -287,7 +379,13 @@ const AdminDashboard = () => {
             ].map((item) => (
               <button
                 key={item.key}
-                onClick={() => setActiveTab(item.key)}
+                onClick={() => {
+                  if (item.key === 'logout') {
+                    handleLogout();
+                  } else {
+                    setActiveTab(item.key);
+                  }
+                }}
                 className={`w-full text-left px-4 py-3 rounded-xl mb-2 border transition ${
                   activeTab === item.key
                     ? 'border-amber-400 bg-amber-400/10 text-amber-200'

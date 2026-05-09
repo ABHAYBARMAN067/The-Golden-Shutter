@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import BookingModal from './BookingModal';
 
 const NAV_ITEMS = [
   { label: 'Home', href: '#home' },
@@ -13,6 +14,7 @@ const NAV_ITEMS = [
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -56,7 +58,7 @@ const Navbar = () => {
               onClick={() => setOpen(false)}
               className="text-lg sm:text-xl font-semibold tracking-tighter text-white"
             >
-              THE WEDDING CAPTURE
+              THE GOLDEN SHUTTER
             </Link>
           </div>
 
@@ -81,7 +83,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center">
             <button
               type="button"
-              onClick={() => scrollToHash('#book')}
+              onClick={() => setBookingModalOpen(true)}
               className="rounded-full px-5 py-2 text-sm font-semibold bg-amber-400 text-black hover:bg-amber-300 transition-colors"
             >
               Book Now
@@ -143,7 +145,7 @@ const Navbar = () => {
               type="button"
               onClick={() => {
                 setOpen(false);
-                scrollToHash('#book');
+                setBookingModalOpen(true);
               }}
               className="mt-2 rounded-full px-5 py-2 text-sm font-semibold bg-amber-400 text-black hover:bg-amber-300 transition-colors w-fit"
             >
@@ -152,6 +154,9 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal isOpen={bookingModalOpen} onClose={() => setBookingModalOpen(false)} />
     </nav>
   );
 };

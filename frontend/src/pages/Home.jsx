@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import GalleryGrid from '../components/GalleryGrid';
+import BookingModal from '../components/BookingModal';
 
-const StoryCard = ({ img, couple, location }) => {
+const StoryCard = ({ wedding, onClick }) => {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20">
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-100 transition-opacity duration-300 group-hover:opacity-60" />
+    <div
+      onClick={onClick}
+      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 cursor-pointer hover:border-amber-400/50 transition-all duration-300"
+    >
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-100 transition-opacity duration-300 group-hover:opacity-60 z-10" />
       <img
-        src={img}
-        alt={couple}
+        src={wedding.featuredImage}
+        alt={wedding.coupleName}
         className="h-80 w-full object-cover transition-transform duration-700 group-hover:scale-110"
       />
 
-      <div className="absolute inset-0 p-5 flex items-end">
+      <div className="absolute inset-0 p-5 flex items-end z-20">
         <div className="w-full">
           <div className="inline-flex items-center gap-2 text-amber-300 text-xs tracking-widest uppercase mb-2">
             <span className="h-px w-8 bg-amber-400/70" />
             Featured Story
           </div>
           <h3 className="text-xl sm:text-2xl font-serif text-white leading-tight">
-            {couple}
+            {wedding.coupleName}
           </h3>
-          <p className="text-sm text-white/80 mt-2">{location}</p>
+          <p className="text-sm text-white/80 mt-2">{wedding.location}</p>
         </div>
       </div>
     </div>
@@ -33,17 +38,24 @@ const Home = () => {
   const [allWeddings, setAllWeddings] = useState([]);
   const [preWeddingWeddings, setPreWeddingWeddings] = useState([]);
   const [weddingWeddings, setWeddingWeddings] = useState([]);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
 
   useEffect(() => {
     // Fetch all gallery images
-    axios.get('http://localhost:5000/api/gallery').then((res) => setAllImages(res.data));
-    
+    axios
+      .get('http://localhost:5000/api/gallery')
+      .then((res) => setAllImages(res.data))
+      .catch((err) => console.error('Error fetching gallery:', err));
+
     // Fetch all weddings
-    axios.get('http://localhost:5000/api/weddings').then((res) => {
-      setAllWeddings(res.data);
-      setPreWeddingWeddings(res.data.filter((w) => w.category === 'PreWedding'));
-      setWeddingWeddings(res.data.filter((w) => w.category === 'Weddings'));
-    });
+    axios
+      .get('http://localhost:5000/api/weddings')
+      .then((res) => {
+        setAllWeddings(res.data);
+        setPreWeddingWeddings(res.data.filter((w) => w.category === 'PreWedding'));
+        setWeddingWeddings(res.data.filter((w) => w.category === 'Weddings'));
+      })
+      .catch((err) => console.error('Error fetching weddings:', err));
   }, []);
 
   // Fallback cinematic visuals
@@ -94,7 +106,7 @@ const Home = () => {
 
                 <button
                   type="button"
-                  onClick={() => document.getElementById('book')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => setBookingModalOpen(true)}
                   className="rounded-full px-6 py-3 bg-amber-400 text-black hover:bg-amber-300 transition-colors text-sm font-semibold"
                 >
                   Book Your Shoot
@@ -157,20 +169,22 @@ const Home = () => {
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {preWeddingWeddings.slice(0, 3).map((wedding) => (
-              <div key={wedding._id} className="rounded-2xl border border-white/10 overflow-hidden bg-white/5 group cursor-pointer hover:border-amber-400/50 transition">
-                <div className="relative overflow-hidden h-56">
-                  <img 
-                    src={wedding.featuredImage || fallbackImages[0]} 
-                    alt={wedding.coupleName} 
-                    className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" 
-                  />
+              <Link key={wedding._id} to={`/wedding/${wedding._id}`}>
+                <div className="rounded-2xl border border-white/10 overflow-hidden bg-white/5 group cursor-pointer hover:border-amber-400/50 transition h-full">
+                  <div className="relative overflow-hidden h-56">
+                    <img
+                      src={wedding.featuredImage || fallbackImages[0]}
+                      alt={wedding.coupleName}
+                      className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <div className="text-white/90 font-medium">{wedding.coupleName}</div>
+                    <div className="text-white/70 text-sm mt-1">{wedding.location}</div>
+                    <div className="text-xs text-pink-300 mt-2">PreWedding</div>
+                  </div>
                 </div>
-                <div className="p-5">
-                  <div className="text-white/90 font-medium">{wedding.coupleName}</div>
-                  <div className="text-white/70 text-sm mt-1">{wedding.location}</div>
-                  <div className="text-xs text-pink-300 mt-2">PreWedding</div>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -189,21 +203,23 @@ const Home = () => {
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
             {weddingWeddings.slice(0, 2).map((wedding) => (
-              <div key={wedding._id} className="relative overflow-hidden rounded-3xl border border-white/10 group cursor-pointer hover:border-amber-400/50 transition">
-                <img 
-                  src={wedding.featuredImage || fallbackImages[0]} 
-                  alt={wedding.coupleName} 
-                  className="h-[320px] w-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                />
-                <div className="absolute inset-0 bg-black/45" />
-                <div className="absolute inset-0 p-6 flex items-end">
-                  <div>
-                    <div className="text-amber-300 text-xs tracking-widest uppercase">Wedding</div>
-                    <div className="mt-2 font-serif italic text-2xl">{wedding.coupleName}</div>
-                    <div className="mt-2 text-white/80 text-sm">{wedding.location}</div>
+              <Link key={wedding._id} to={`/wedding/${wedding._id}`}>
+                <div className="relative overflow-hidden rounded-3xl border border-white/10 group cursor-pointer hover:border-amber-400/50 transition h-full">
+                  <img
+                    src={wedding.featuredImage || fallbackImages[0]}
+                    alt={wedding.coupleName}
+                    className="h-[320px] w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/45" />
+                  <div className="absolute inset-0 p-6 flex items-end">
+                    <div>
+                      <div className="text-amber-300 text-xs tracking-widest uppercase">Wedding</div>
+                      <div className="mt-2 font-serif italic text-2xl">{wedding.coupleName}</div>
+                      <div className="mt-2 text-white/80 text-sm">{wedding.location}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -218,7 +234,9 @@ const Home = () => {
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {storyWeddings.map((wedding) => (
-              <StoryCard key={wedding._id} img={wedding.featuredImage || fallbackImages[0]} couple={wedding.coupleName} location={wedding.location} />
+              <Link key={wedding._id} to={`/wedding/${wedding._id}`}>
+                <StoryCard wedding={wedding} onClick={() => {}} />
+              </Link>
             ))}
           </div>
         </div>
@@ -282,13 +300,13 @@ const Home = () => {
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <div className="text-amber-300 text-xs tracking-widest uppercase">Studio</div>
-              <div className="mt-3 text-2xl font-serif italic">THE WEDDING CAPTURE</div>
+              <div className="mt-3 text-2xl font-serif italic">THE GOLDEN SHUTTER</div>
               <p className="text-white/70 mt-3 text-sm leading-relaxed">
                 We’re based in India and shoot across cities for weddings, preweddings, and cinematic films.
               </p>
               <div className="mt-5 space-y-2 text-sm text-white/80">
                 <div>
-                  <span className="text-amber-300">Email:</span> hello@theweddingcapture.com
+                  <span className="text-amber-300">Email:</span> hello@thegoldenshutter.com
                 </div>
                 <div>
                   <span className="text-amber-300">Phone:</span> +91 99999 99999
@@ -297,23 +315,16 @@ const Home = () => {
             </div>
 
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  document.getElementById('book')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="space-y-4"
+              <h3 className="text-lg font-serif italic text-white">Quick Inquiry</h3>
+              <p className="text-white/70 text-sm mt-2">
+                Have a question? Click below to get in touch with us directly.
+              </p>
+              <button
+                onClick={() => setBookingModalOpen(true)}
+                className="mt-6 rounded-full px-6 py-3 bg-amber-400 text-black font-semibold hover:bg-amber-300 transition-colors text-sm w-full"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input className="w-full rounded-2xl bg-black/20 border border-white/10 p-3" placeholder="Name" />
-                  <input className="w-full rounded-2xl bg-black/20 border border-white/10 p-3" placeholder="Phone" />
-                </div>
-                <input className="w-full rounded-2xl bg-black/20 border border-white/10 p-3" placeholder="Your Wedding Date" />
-                <textarea className="w-full min-h-[120px] rounded-2xl bg-black/20 border border-white/10 p-3" placeholder="Tell us about your story" />
-                <button type="submit" className="rounded-full w-full px-6 py-3 bg-amber-400 text-black font-semibold hover:bg-amber-300 transition-colors">
-                  Get a Quote
-                </button>
-              </form>
+                Start Your Booking
+              </button>
             </div>
           </div>
         </div>
@@ -325,7 +336,7 @@ const Home = () => {
           <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/30">
             <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 via-black/40 to-transparent" />
             <div className="relative p-8 sm:p-12">
-              <h2 className="font-serif italic text-3xl sm:text-5xl">Book Now</h2>
+              <h2 className="font-serif italic text-3xl sm:text-5xl">Ready To Book?</h2>
               <p className="text-white/80 mt-3 max-w-2xl">
                 Share your date and location. We’ll respond with package details and availability.
               </p>
@@ -333,15 +344,15 @@ const Home = () => {
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 <button
                   type="button"
-                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="rounded-full px-6 py-3 border border-amber-400/40 bg-white/5 hover:bg-white/10 transition-colors text-sm font-semibold"
+                  onClick={() => setBookingModalOpen(true)}
+                  className="rounded-full px-6 py-3 bg-amber-400 text-black hover:bg-amber-300 transition-colors text-sm font-semibold"
                 >
-                  Contact Us
+                  Book Your Shoot
                 </button>
                 <button
                   type="button"
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="rounded-full px-6 py-3 bg-amber-400 text-black hover:bg-amber-300 transition-colors text-sm font-semibold"
+                  className="rounded-full px-6 py-3 border border-amber-400/40 bg-white/5 hover:bg-white/10 transition-colors text-sm font-semibold"
                 >
                   Back to Top
                 </button>
@@ -350,6 +361,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Booking Modal */}
+      <BookingModal isOpen={bookingModalOpen} onClose={() => setBookingModalOpen(false)} />
     </div>
   );
 };

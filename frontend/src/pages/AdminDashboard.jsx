@@ -385,6 +385,12 @@ const AdminDashboard = () => {
                             >
                               View
                             </button>
+                            <a
+                              href={`/wedding/${w._id}`}
+                              className="px-3 py-1 rounded-xl bg-amber-400 text-black hover:bg-amber-300 transition inline-block"
+                            >
+                              Open
+                            </a>
                             <button
                               onClick={() => {
                                 setEditingWedding(w);

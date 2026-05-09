@@ -1,0 +1,232 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import Lightbox from '../components/Lightbox';
+import BookingModal from '../components/BookingModal';
+
+const WeddingCollection = () => {
+  const { id } = useParams();
+
+  const [wedding, setWedding] = useState(null);
+  const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // Fetch wedding by slug/id
+        const weddingRes = await axios.get(`http://localhost:5000/api/weddings/${id}`);
+        const weddingData = weddingRes.data;
+        setWedding(weddingData);
+
+        // Fetch photos for this wedding
+        const photosRes = await axios.get(`http://localhost:5000/api/gallery?weddingId=${weddingData._id}`);
+        setPhotos(photosRes.data);
+      } catch (err) {
+        console.error('Failed to fetch wedding collection:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchData();
+  }, [id]);
+
+  const handlePhotoClick = (index) => {
+    setCurrentPhotoIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const handlePrevPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
+  };
+
+  const handleNextPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-400 mx-auto mb-4"></div>
+          <p>Loading wedding collection...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!wedding) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-serif mb-4">Wedding not found</h2>
+          <p className="text-white/70">Sorry, we couldn't find this wedding collection.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-black text-white">
+      {/* Offset for fixed navbar */}
+      <div className="h-16" aria-hidden />
+
+      {/* Hero Section */}
+      <div className="h-96 md:h-[520px] relative">
+        <div className="absolute inset-0 bg-black/40 z-10" />
+        <img
+          src={wedding.featuredImage}
+          alt={wedding.coupleName}
+          className="w-full h-full object-cover"
+        />
+
+        <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-10">
+          <div className="max-w-3xl">
+            <div className="text-amber-300 text-xs tracking-widest uppercase font-semibold">
+              {wedding.category}
+            </div>
+            <h1 className="font-serif italic text-4xl md:text-5xl mt-3 leading-tight">
+              {wedding.coupleName}
+            </h1>
+            <div className="text-white/80 mt-4 text-lg">{wedding.location}</div>
+            <div className="text-white/70 mt-4 text-sm">
+              {new Date(wedding.weddingDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        {/* Description */}
+        {wedding.description && (
+          <div className="mb-12">
+            <p className="text-white/70 text-base leading-relaxed max-w-3xl">
+              {wedding.description}
+            </p>
+          </div>
+        )}
+
+        {/* Gallery Section */}
+        <div>
+          <h2 className="text-3xl font-serif italic mb-8">Wedding Gallery</h2>
+
+          {photos.length === 0 ? (
+            <div className="text-white/50 text-center py-12">No photos uploaded yet.</div>
+          ) : (
+            <>
+              {/* Masonry Gallery */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-[240px] md:auto-rows-[300px]">
+                {photos.map((photo, idx) => {
+                  let gridClass = 'col-span-1 row-span-1';
+                  if (photo.aspectRatio < 0.8) gridClass = 'row-span-2 col-span-1'; // Portrait
+                  if (photo.aspectRatio > 1.6) gridClass = 'col-span-2 row-span-1'; // Landscape
+
+                  return (
+                    <div
+                      key={photo._id}
+                      className={`${gridClass} overflow-hidden rounded-lg shadow-lg group relative cursor-pointer bg-black/20 border border-white/10`}
+                      onClick={() => handlePhotoClick(idx)}
+                    >
+                      <img
+                        src={photo.imageUrl}
+                        alt={`Gallery ${idx + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <div className="w-12 h-12 rounded-full border border-white bg-white/10 flex items-center justify-center">
+                          <svg
+                            className="w-6 h-6 text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Videos Section (if available) */}
+        {wedding.videos && wedding.videos.length > 0 && (
+          <div className="mt-16 pt-12 border-t border-white/10">
+            <h2 className="text-3xl font-serif italic mb-8">Cinematic Films</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {wedding.videos.map((videoUrl, idx) => (
+                <div key={idx} className="rounded-2xl overflow-hidden border border-white/10 bg-black/20">
+                  <div className="relative h-64 md:h-72 bg-black/40">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={videoUrl}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title={`Film ${idx + 1}`}
+                      className="rounded-lg"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* CTA Section */}
+        <div className="mt-16 pt-12 border-t border-white/10">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/30 p-8 md:p-12">
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-black/40 to-transparent" />
+            <div className="relative">
+              <h3 className="text-3xl font-serif italic">Love What You See?</h3>
+              <p className="text-white/70 mt-3 max-w-2xl">
+                We'd love to capture your special moments too. Book a consultation with us today.
+              </p>
+              <button
+                onClick={() => setBookingModalOpen(true)}
+                className="mt-6 rounded-full px-8 py-3 bg-amber-400 text-black font-semibold hover:bg-amber-300 transition-colors"
+              >
+                Book Your Shoot
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Lightbox */}
+      <Lightbox
+        isOpen={lightboxOpen}
+        images={photos}
+        currentIndex={currentPhotoIndex}
+        onClose={() => setLightboxOpen(false)}
+        onPrev={handlePrevPhoto}
+        onNext={handleNextPhoto}
+      />
+
+      {/* Booking Modal */}
+      <BookingModal isOpen={bookingModalOpen} onClose={() => setBookingModalOpen(false)} />
+    </div>
+  );
+};
+
+export default WeddingCollection;
+

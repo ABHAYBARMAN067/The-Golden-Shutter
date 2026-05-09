@@ -9,3 +9,4 @@ router.delete('/:imageId', authenticateAdmin, deleteImage);
 
 module.exports = router;
 
+

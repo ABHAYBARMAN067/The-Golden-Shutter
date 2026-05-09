@@ -5,12 +5,10 @@ exports.createContact = async (req, res) => {
   try {
     const { name, email, phone, subject, message } = req.body;
 
-    // Validation
     if (!name || !email || !subject || !message) {
       return res.status(400).json({ error: 'Missing required fields: name, email, subject, message' });
     }
 
-    // Create contact in database
     const contact = new Contact({
       name,
       email,
@@ -31,7 +29,6 @@ exports.createContact = async (req, res) => {
           <div style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
             <div style="max-width: 600px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
               <h2 style="color: #d4af37; text-align: center;">New Contact Submission</h2>
-              
               <div style="margin-top: 20px; border-bottom: 2px solid #d4af37; padding-bottom: 10px;">
                 <p><strong>From:</strong> ${name}</p>
                 <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
@@ -53,7 +50,6 @@ exports.createContact = async (req, res) => {
       });
     } catch (emailError) {
       console.log('⚠️ Email notification failed:', emailError.message);
-      // Don't fail the request if email fails - still save to database
     }
 
     // Send confirmation email to user
@@ -94,14 +90,14 @@ exports.createContact = async (req, res) => {
       console.log('⚠️ Confirmation email failed:', emailError.message);
     }
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Your message has been sent successfully!',
       contact,
     });
   } catch (err) {
     console.error('Contact form error:', err);
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -119,7 +115,6 @@ exports.getContactById = async (req, res) => {
     const contact = await Contact.findById(req.params.id);
     if (!contact) return res.status(404).json({ error: 'Contact not found' });
 
-    // Mark as read
     contact.read = true;
     await contact.save();
 
@@ -138,3 +133,4 @@ exports.deleteContact = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+

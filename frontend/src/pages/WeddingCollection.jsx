@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Lightbox from '../components/Lightbox';
 import BookingModal from '../components/BookingModal';
-import API_URL from '../api';
 
 const WeddingCollection = () => {
   const { id } = useParams();
@@ -20,12 +19,12 @@ const WeddingCollection = () => {
       setLoading(true);
       try {
         // Fetch wedding by slug/id
-        const weddingRes = await axios.get(`${API_URL}/api/weddings/${id}`);
+        const weddingRes = await axios.get(`http://localhost:5000/api/weddings/${id}`);
         const weddingData = weddingRes.data;
         setWedding(weddingData);
 
         // Fetch photos for this wedding
-        const photosRes = await axios.get(`${API_URL}/api/gallery?weddingId=${weddingData._id}`);
+        const photosRes = await axios.get(`http://localhost:5000/api/gallery?weddingId=${weddingData._id}`);
         setPhotos(photosRes.data);
       } catch (err) {
         console.error('Failed to fetch wedding collection:', err);
@@ -135,7 +134,7 @@ const WeddingCollection = () => {
                   return (
                     <div
                       key={photo._id}
-                      className={`${gridClass} overflow-hidden shadow-lg group relative cursor-pointer bg-black/20 border border-white/10`}
+                      className={`${gridClass} overflow-hidden rounded-lg shadow-lg group relative cursor-pointer bg-black/20 border border-white/10`}
                       onClick={() => handlePhotoClick(idx)}
                     >
                       <img
@@ -144,7 +143,7 @@ const WeddingCollection = () => {
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                        <div className="w-12 h-12 border border-white bg-white/10 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full border border-white bg-white/10 flex items-center justify-center">
                           <svg
                             className="w-6 h-6 text-white"
                             fill="none"
@@ -174,7 +173,7 @@ const WeddingCollection = () => {
             <h2 className="text-3xl font-serif italic mb-8">Cinematic Films</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {wedding.videos.map((videoUrl, idx) => (
-                <div key={idx} className="overflow-hidden border border-white/10 bg-black/20">
+                <div key={idx} className="rounded-2xl overflow-hidden border border-white/10 bg-black/20">
                   <div className="relative h-64 md:h-72 bg-black/40">
                     <iframe
                       width="100%"
@@ -184,7 +183,7 @@ const WeddingCollection = () => {
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                       title={`Film ${idx + 1}`}
-                      className=""
+                      className="rounded-lg"
                     />
                   </div>
                 </div>
@@ -195,7 +194,7 @@ const WeddingCollection = () => {
 
         {/* CTA Section */}
         <div className="mt-16 pt-12 border-t border-white/10">
-          <div className="relative overflow-hidden border border-white/10 bg-black/30 p-8 md:p-12">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/30 p-8 md:p-12">
             <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-black/40 to-transparent" />
             <div className="relative">
               <h3 className="text-3xl font-serif italic">Love What You See?</h3>
@@ -204,7 +203,7 @@ const WeddingCollection = () => {
               </p>
               <button
                 onClick={() => setBookingModalOpen(true)}
-                className="mt-6 px-8 py-3 bg-amber-400 text-black font-semibold hover:bg-amber-300 transition-colors"
+                className="mt-6 rounded-full px-8 py-3 bg-amber-400 text-black font-semibold hover:bg-amber-300 transition-colors"
               >
                 Book Your Shoot
               </button>

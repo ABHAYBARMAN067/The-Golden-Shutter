@@ -44,8 +44,7 @@ const AdminDashboard = () => {
     if (!aspectRatio) return alert('Aspect ratio compute नहीं हुआ');
 
     setBusy(true);
-    try { 
-
+    try {
       const toBase64 = (f) =>
         new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -69,65 +68,145 @@ const AdminDashboard = () => {
       setFormData({ category: 'General' });
     } catch (err) {
       console.error(err);
-      alert('Upload failed: ' + (err?.response?.data?.error || err?.message || 'unknown'));
+      alert(
+        'Upload failed: ' +
+          (err?.response?.data?.error || err?.message || 'unknown')
+      );
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[80vh] px-4">
-      <h2 className="text-3xl font-light mb-8">Admin Control Panel</h2>
-
-      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4 bg-white p-6 rounded-xl shadow">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-
-        {imagePreviewUrl && (
-          <div className="w-full">
-            <p className="text-sm text-zinc-600 mb-2">Preview</p>
-            <img
-              src={imagePreviewUrl}
-              alt="preview"
-              className="w-full h-48 object-cover rounded-lg border"
-            />
+    <div className="min-h-[80vh] px-4 py-14 bg-black text-white">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-10">
+          <div className="inline-flex items-center gap-3 text-amber-300/90 text-xs tracking-widest uppercase mb-4">
+            <span className="h-px w-12 bg-amber-400/60" />
+            Admin Control Panel
           </div>
-        )}
-
-        <div>
-          <label className="text-sm text-zinc-600">Aspect Ratio (Width/Height)</label>
-          <div className="mt-1">
-            <input
-              type="text"
-              readOnly
-              value={aspectRatio ? aspectRatio.toFixed(3) : ''}
-              placeholder="Auto"
-              className="w-full p-2 border rounded bg-zinc-50"
-            />
-          </div>
+          <h2 className="font-serif italic text-4xl">Upload your next memory</h2>
+          <p className="text-white/70 mt-3 max-w-2xl text-sm leading-relaxed">
+            Keep your portfolio cinematic. Upload images and categorize them for the
+            gallery.
+          </p>
         </div>
 
-        <input
-          type="text"
-          placeholder="Category (optional)"
-          value={formData.category}
-          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-          className="w-full p-2 border rounded"
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* Preview card */}
+          <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden">
+            <div className="p-6 border-b border-white/10">
+              <div className="text-amber-300 text-xs tracking-widest uppercase">Preview</div>
+              <div className="text-white/80 text-sm mt-2">
+                Upload an image to see its preview.
+              </div>
+            </div>
 
-        <button
-          type="submit"
-          disabled={busy}
-          className="w-full px-8 py-3 bg-black text-white rounded-full hover:bg-zinc-800 transition-all disabled:opacity-60"
-        >
-          {busy ? 'Uploading...' : 'Upload New Memory'}
-        </button>
-      </form>
+            <div className="p-6">
+              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+                {imagePreviewUrl ? (
+                  <img
+                    src={imagePreviewUrl}
+                    alt="preview"
+                    className="w-full h-80 object-cover"
+                  />
+                ) : (
+                  <div className="h-80 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-16 h-16 mx-auto rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center">
+                        <span className="text-amber-300 text-xl">+</span>
+                      </div>
+                      <div className="text-white/70 text-sm mt-3">No image selected</div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent pointer-events-none" />
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div className="text-amber-300 text-xs tracking-widest uppercase">Aspect Ratio</div>
+                  <div className="mt-2 text-white/90 font-medium text-sm">
+                    {aspectRatio ? aspectRatio.toFixed(3) : '—'}
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div className="text-amber-300 text-xs tracking-widest uppercase">Status</div>
+                  <div className="mt-2 text-white/90 font-medium text-sm">
+                    {busy ? 'Uploading...' : imagePreviewUrl ? 'Ready' : 'Waiting'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Upload form */}
+          <form
+            onSubmit={handleSubmit}
+            className="w-full space-y-5 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 lg:p-7"
+          >
+            <div>
+              <label className="block text-sm text-white/80 mb-2" htmlFor="file">
+                Upload image
+              </label>
+              <input
+                id="file"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="w-full p-2 border border-white/10 rounded-2xl bg-black/20"
+                required
+              />
+            </div>
+
+            {imagePreviewUrl && (
+              <div>
+                <div className="text-sm text-white/70 mb-2">Selected</div>
+                <div className="rounded-2xl border border-white/10 overflow-hidden">
+                  <img
+                    src={imagePreviewUrl}
+                    alt="selected"
+                    className="w-full h-44 object-cover"
+                  />
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm text-white/80 mb-2">
+                Aspect Ratio (Width/Height)
+              </label>
+              <input
+                type="text"
+                readOnly
+                value={aspectRatio ? aspectRatio.toFixed(3) : ''}
+                placeholder="Auto"
+                className="w-full p-3 border border-white/10 rounded-2xl bg-black/20"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-white/80 mb-2">Category (optional)</label>
+              <input
+                type="text"
+                placeholder="General"
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                className="w-full p-3 border border-white/10 rounded-2xl bg-black/20"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={busy}
+              className="w-full px-8 py-3 bg-amber-400 text-black rounded-full hover:bg-amber-300 transition-all disabled:opacity-60 font-semibold"
+            >
+              {busy ? 'Uploading...' : 'Upload New Memory'}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

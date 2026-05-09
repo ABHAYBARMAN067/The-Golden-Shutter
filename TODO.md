@@ -1,7 +1,7 @@
 # TODO
 
 ## Frontend UI overhaul (Navbar + Hero + Featured Stories)
-- [ ] Update `frontend/src/components/Navbar.jsx`:
+- [x] Update `frontend/src/components/Navbar.jsx`:
   - Transparent initially; becomes black glassmorphism on scroll
   - Sticky
   - Desktop links: Home/PreWedding/Weddings/Portfolio/Films/Contact
@@ -21,4 +21,10 @@
   - Featured card hover overlay/zoom
 - [ ] Smoke-test by running frontend dev server and checking:
   - Scroll behavior, mobile menu, smooth anchor scroll, hero animation
+
+## Admin panel improvements (match Home feature style)
+- [x] Update `frontend/src/pages/AdminDashboard.jsx` theme to black/gold/glassmorphism
+
+- [ ] Improve admin layout (split preview + form, nicer typography/buttons)
+- [ ] Smoke-test admin upload flow after UI changes
 

@@ -1,17 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import BookingModal from './BookingModal';
 
 const NAV_ITEMS = [
-  { label: 'Home', href: '#home' },
-  { label: 'PreWedding', href: '#prewedding' },
-  { label: 'Weddings', href: '#weddings' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Films', href: '#films' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/', isHashLink: false },
+  { label: 'PreWedding', href: '#prewedding', isHashLink: true },
+  { label: 'Weddings', href: '#weddings', isHashLink: true },
+  { label: 'Portfolio', href: '#portfolio', isHashLink: true },
+  { label: 'Films', href: '#films', isHashLink: true },
+  { label: 'Contact', href: '#contact', isHashLink: true },
 ];
 
 const Navbar = () => {
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -31,6 +32,19 @@ const Navbar = () => {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  useEffect(() => {
+    // Handle hash-based navigation
+    if (location.hash) {
+      setTimeout(() => {
+        const id = location.hash.replace('#', '');
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
   const navClass = useMemo(() => {
     return scrolled
       ? 'bg-black/60 backdrop-blur-xl border-b border-amber-500/20'
@@ -38,11 +52,18 @@ const Navbar = () => {
   }, [scrolled]);
 
   const scrollToHash = (href) => {
+    if (!href.startsWith('#')) return;
     const id = href.replace('#', '');
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  };
+
+  const isActive = (href) => {
+    if (href === '/') return location.pathname === '/';
+    if (href.startsWith('#')) return false;
+    return location.pathname.startsWith(href);
   };
 
   return (
@@ -56,7 +77,7 @@ const Navbar = () => {
             <Link
               to="/"
               onClick={() => setOpen(false)}
-              className="text-lg sm:text-xl font-semibold tracking-tighter text-white"
+              className="text-lg sm:text-xl font-semibold tracking-tighter text-white hover:text-amber-400 transition-colors"
             >
               THE GOLDEN SHUTTER
             </Link>
@@ -64,19 +85,33 @@ const Navbar = () => {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-6">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToHash(item.href);
-                }}
-                className="text-sm font-medium text-white/90 hover:text-amber-400 transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
+            {NAV_ITEMS.map((item) => 
+              item.isHashLink ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToHash(item.href);
+                  }}
+                  className="text-sm font-medium text-white/90 hover:text-amber-400 transition-colors"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={`text-sm font-medium transition-colors ${
+                    isActive(item.href)
+                      ? 'text-amber-400'
+                      : 'text-white/90 hover:text-amber-400'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
           </div>
 
           {/* Book Now button (desktop) */}
@@ -126,20 +161,35 @@ const Navbar = () => {
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
           <div className="flex flex-col gap-3 pt-2">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setOpen(false);
-                  scrollToHash(item.href);
-                }}
-                className="text-sm font-medium text-white/90 hover:text-amber-400 transition-colors py-1"
-              >
-                {item.label}
-              </a>
-            ))}
+            {NAV_ITEMS.map((item) =>
+              item.isHashLink ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpen(false);
+                    scrollToHash(item.href);
+                  }}
+                  className="text-sm font-medium text-white/90 hover:text-amber-400 transition-colors py-1"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  onClick={() => setOpen(false)}
+                  className={`text-sm font-medium transition-colors py-1 ${
+                    isActive(item.href)
+                      ? 'text-amber-400'
+                      : 'text-white/90 hover:text-amber-400'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
 
             <button
               type="button"

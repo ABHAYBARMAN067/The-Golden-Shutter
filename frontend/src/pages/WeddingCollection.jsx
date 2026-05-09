@@ -126,22 +126,22 @@ const WeddingCollection = () => {
           ) : (
             <>
               {/* Masonry Gallery */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-[240px] md:auto-rows-[300px]">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 auto-rows-[200px] md:auto-rows-[250px]">
                 {photos.map((photo, idx) => {
-                  let gridClass = 'col-span-1 row-span-1';
-                  if (photo.aspectRatio < 0.8) gridClass = 'row-span-2 col-span-1'; // Portrait
-                  if (photo.aspectRatio > 1.6) gridClass = 'col-span-2 row-span-1'; // Landscape
+                  let gridClass = 'col-span-1';
+                  if (photo.aspectRatio < 0.8) gridClass = 'row-span-2'; // Portrait
+                  if (photo.aspectRatio > 1.6) gridClass = 'col-span-2'; // Landscape
 
                   return (
                     <div
                       key={photo._id}
-                      className={`${gridClass} overflow-hidden rounded-lg shadow-lg group relative cursor-pointer bg-black/20 border border-white/10`}
+                      className={`${gridClass} overflow-hidden rounded-sm shadow-lg group relative cursor-pointer`}
                       onClick={() => handlePhotoClick(idx)}
                     >
                       <img
                         src={photo.imageUrl}
                         alt={`Gallery ${idx + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                         <div className="w-12 h-12 rounded-full border border-white bg-white/10 flex items-center justify-center">

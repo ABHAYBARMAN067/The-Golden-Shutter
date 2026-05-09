@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const weddingSchema = new mongoose.Schema({
   coupleName: { type: String, required: true },
+  slug: { type: String, unique: true, required: true },
   location: { type: String, required: true },
   weddingDate: { type: Date, required: true },
   featuredImage: { type: String, required: true },

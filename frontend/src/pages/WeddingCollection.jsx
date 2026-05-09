@@ -6,7 +6,7 @@ import Lightbox from '../components/Lightbox';
 import BookingModal from '../components/BookingModal';
 
 const WeddingCollection = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
 
   const [wedding, setWedding] = useState(null);
   const [photos, setPhotos] = useState([]);
@@ -19,8 +19,8 @@ const WeddingCollection = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Fetch wedding by id
-        const weddingRes = await axios.get(`${API_URL}/api/weddings/${id}`);
+        // Fetch wedding by slug or id
+        const weddingRes = await axios.get(`${API_URL}/api/weddings/${slug}`);
         const weddingData = weddingRes.data;
         setWedding(weddingData);
 
@@ -34,8 +34,8 @@ const WeddingCollection = () => {
       }
     };
 
-    if (id) fetchData();
-  }, [id]);
+    if (slug) fetchData();
+  }, [slug]);
 
   const handlePhotoClick = (index) => {
     setCurrentPhotoIndex(index);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import API_URL from '../api';
 
 const BookingModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -27,9 +28,7 @@ const BookingModal = ({ isOpen, onClose }) => {
     setErrorMessage('');
 
     try {
-      // Optional: Send booking inquiry to backend
-      // await axios.post('http://localhost:5000/api/bookings', formData);
-      
+      await axios.post(`${API_URL}/api/bookings`, formData);
       setSuccessMessage('Thank you! We will contact you shortly.');
       setFormData({
         name: '',

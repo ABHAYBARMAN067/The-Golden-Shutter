@@ -170,7 +170,7 @@ const Home = () => {
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {preWeddingWeddings.slice(0, 3).map((wedding) => (
-              <Link key={wedding._id} to={`/wedding/${wedding._id}`}>
+              <Link key={wedding._id} to={`/wedding/${wedding.slug || wedding._id}`}>
                 <div className="rounded-2xl border border-white/10 overflow-hidden bg-white/5 group cursor-pointer hover:border-amber-400/50 transition h-full">
                   <div className="relative overflow-hidden h-56">
                     <img
@@ -204,7 +204,7 @@ const Home = () => {
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
             {weddingWeddings.slice(0, 2).map((wedding) => (
-              <Link key={wedding._id} to={`/wedding/${wedding._id}`}>
+              <Link key={wedding._id} to={`/wedding/${wedding.slug || wedding._id}`}>
                 <div className="relative overflow-hidden rounded-3xl border border-white/10 group cursor-pointer hover:border-amber-400/50 transition h-full">
                   <img
                     src={wedding.featuredImage || fallbackImages[0]}
@@ -235,7 +235,7 @@ const Home = () => {
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {storyWeddings.map((wedding) => (
-              <Link key={wedding._id} to={`/wedding/${wedding._id}`}>
+              <Link key={wedding._id} to={`/wedding/${wedding.slug || wedding._id}`}>
                 <StoryCard wedding={wedding} onClick={() => {}} />
               </Link>
             ))}

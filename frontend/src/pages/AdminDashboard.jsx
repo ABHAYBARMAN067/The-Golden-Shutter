@@ -29,6 +29,10 @@ const AdminDashboard = () => {
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState(null);
 
+  // ===== BOOKINGS MANAGEMENT =====
+  const [bookings, setBookings] = useState([]);
+  const [bookingsLoading, setBookingsLoading] = useState(false);
+
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('adminToken'));
@@ -59,6 +63,7 @@ const AdminDashboard = () => {
     setWeddings([]);
     setSelectedWedding(null);
     setWeddingPhotos([]);
+    setBookings([]);
   };
 
   // ===== ANALYTICS =====
@@ -73,17 +78,19 @@ const AdminDashboard = () => {
   useEffect(() => {
     if (isAuthenticated) {
       fetchWeddings();
+      fetchBookings();
     }
   }, [isAuthenticated]);
 
-  // Update analytics whenever weddings/photos change
+  // Update analytics whenever weddings/photos/bookings change
   useEffect(() => {
     setAnalytics((prev) => ({
       ...prev,
       totalWeddings: weddings.length,
       totalPhotos: weddingPhotos.length,
+      totalBookings: bookings.length,
     }));
-  }, [weddings.length, weddingPhotos.length]);
+  }, [weddings.length, weddingPhotos.length, bookings.length]);
 
   // Fetch photos when selected wedding changes
   useEffect(() => {
@@ -118,6 +125,23 @@ const AdminDashboard = () => {
       setWeddingPhotos(res.data);
     } catch (err) {
       console.error('Error fetching photos:', err);
+    }
+  };
+
+  const fetchBookings = async () => {
+    setBookingsLoading(true);
+    try {
+      const res = await axios.get(`${API_URL}/api/bookings`, {
+        headers: getAuthHeaders(),
+      });
+      setBookings(res.data);
+    } catch (err) {
+      console.error('Error fetching bookings:', err);
+      if (err.response && err.response.status === 401) {
+        handleLogout();
+      }
+    } finally {
+      setBookingsLoading(false);
     }
   };
 
@@ -516,7 +540,7 @@ const AdminDashboard = () => {
                               View
                             </button>
                             <a
-                              href={`/wedding/${w._id}`}
+                              href={`/wedding/${w.slug || w._id}`}
                               className="px-3 py-1 rounded-xl bg-amber-400 text-black hover:bg-amber-300 transition inline-block"
                             >
                               Open
@@ -940,8 +964,34 @@ const AdminDashboard = () => {
 
             {activeTab === 'bookings' && (
               <section>
-                <h2 className="font-serif italic text-3xl">Bookings</h2>
-                <p className="text-white/70 mt-2">Placeholder UI. Connect booking APIs later.</p>
+                <div className="mb-6">
+                  <h2 className="font-serif italic text-3xl">Bookings</h2>
+                  <p className="text-white/70 mt-2">All booking inquiries received from the website.</p>
+                </div>
+
+                <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6">
+                  {bookingsLoading ? (
+                    <div className="text-white/70">Loading bookings...</div>
+                  ) : bookings.length === 0 ? (
+                    <div className="text-white/50">No bookings yet.</div>
+                  ) : (
+                    <div className="space-y-4">
+                      {bookings.map((booking) => (
+                        <div key={booking._id} className="rounded-3xl border border-white/10 p-4 bg-black/20">
+                          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                              <div className="text-white font-semibold">{booking.name}</div>
+                              <div className="text-sm text-white/70">{booking.location} • {new Date(booking.weddingDate).toLocaleDateString()}</div>
+                            </div>
+                            <div className="text-xs uppercase tracking-widest text-amber-300">Booked on {new Date(booking.createdAt).toLocaleDateString()}</div>
+                          </div>
+                          <div className="mt-3 text-white/70 text-sm">Phone: {booking.phone}</div>
+                          {booking.message && <div className="mt-2 text-white/70 text-sm">Message: {booking.message}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </section>
             )}
 

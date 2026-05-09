@@ -10,7 +10,7 @@ const {
 } = require('../controllers/weddingController');
 
 router.get('/', getAllWeddings);
-router.get('/:weddingId', getWeddingWithPhotos);
+router.get('/:slugOrId', getWeddingWithPhotos);
 router.post('/', authenticateAdmin, createWedding);
 router.put('/:weddingId', authenticateAdmin, updateWedding);
 router.delete('/:weddingId', authenticateAdmin, deleteWedding);

@@ -20,19 +20,24 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: process.env.CLIENT_ORIGIN || '*',
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
-
 
 app.use('/api/auth', authRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/weddings', weddingRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/contact', require('./routes/contactRoutes'));
 
 
 const PORT = process.env.PORT || 5000;
+
 
 app.listen(PORT, () =>
   console.log(`Server running on port ${PORT}`)

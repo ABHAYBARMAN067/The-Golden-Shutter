@@ -13,15 +13,22 @@ const authenticateAdmin = (req, res, next) => {
   }
 
   const token = authHeader.split(' ')[1];
-  const decoded = Buffer.from(token, 'base64').toString('utf8');
-  const [username, password] = decoded.split(':');
-  const admin = getAdminCredentials();
 
-  if (username !== admin.username || password !== admin.password) {
-    return res.status(401).json({ error: 'Unauthorized: Invalid credentials' });
+  // Token format is `${username}:${password}` base64-encoded (see /api/auth/login)
+  try {
+    const decoded = Buffer.from(token, 'base64').toString('utf8');
+    const [username, password] = decoded.split(':');
+
+    const admin = getAdminCredentials();
+    if (username !== admin.username || password !== admin.password) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid credentials' });
+    }
+
+    return next();
+  } catch (e) {
+    return res.status(401).json({ error: 'Unauthorized: Invalid token' });
   }
-
-  next();
 };
+
 
 module.exports = authenticateAdmin;

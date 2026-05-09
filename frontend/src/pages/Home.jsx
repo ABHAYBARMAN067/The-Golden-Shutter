@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import GalleryGrid from '../components/GalleryGrid';
 import BookingModal from '../components/BookingModal';
+import API_URL from '../api';
 
 const StoryCard = ({ wedding, onClick }) => {
   return (
@@ -43,17 +44,17 @@ const Home = () => {
   useEffect(() => {
     // Fetch all gallery images
     axios
-      .get('http://localhost:5000/api/gallery')
+      .get(`${API_URL}/api/gallery`)
       .then((res) => setAllImages(res.data))
       .catch((err) => console.error('Error fetching gallery:', err));
 
     // Fetch all weddings
     axios
-      .get('http://localhost:5000/api/weddings')
+      .get(`${API_URL}/api/weddings`)
       .then((res) => {
         setAllWeddings(res.data);
-        setPreWeddingWeddings(res.data.filter((w) => w.category === 'PreWedding'));
-        setWeddingWeddings(res.data.filter((w) => w.category === 'Weddings'));
+        setPreWeddingWeddings(res.data.filter((w) => w.category?.toLowerCase() === 'prewedding'));
+        setWeddingWeddings(res.data.filter((w) => w.category?.toLowerCase() === 'weddings'));
       })
       .catch((err) => console.error('Error fetching weddings:', err));
   }, []);
@@ -132,7 +133,7 @@ const Home = () => {
               <div className="relative overflow-hidden rounded-3xl border border-white/10">
                 <div className="absolute inset-0 bg-black/45 z-10" />
                 <img
-                  src={allImages[0]?.imageUrl || fallbackImages[0]}
+                  src={allWeddings[0]?.featuredImage || allImages[0]?.imageUrl || fallbackImages[0]}
                   alt="Cinematic wedding"
                   className="w-full h-[520px] object-cover scale-105 hero-zoom"
                 />

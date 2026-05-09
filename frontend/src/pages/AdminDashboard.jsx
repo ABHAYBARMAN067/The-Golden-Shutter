@@ -102,7 +102,13 @@ const AdminDashboard = () => {
       setWeddings(res.data);
     } catch (err) {
       console.error('Error fetching weddings:', err);
-      alert('Failed to fetch weddings');
+      if (err.response && err.response.status === 401) {
+        // Token invalid, logout
+        handleLogout();
+        alert('Session expired. Please login again.');
+      } else {
+        alert('Failed to fetch weddings');
+      }
     }
   };
 
@@ -157,7 +163,12 @@ const AdminDashboard = () => {
       alert('Wedding created successfully!');
     } catch (err) {
       console.error('Error creating wedding:', err);
-      alert('Failed to create wedding');
+      if (err.response && err.response.status === 401) {
+        handleLogout();
+        alert('Session expired. Please login again.');
+      } else {
+        alert('Failed to create wedding');
+      }
     }
   };
 
@@ -192,7 +203,12 @@ const AdminDashboard = () => {
       alert('Wedding updated successfully!');
     } catch (err) {
       console.error('Error updating wedding:', err);
-      alert('Failed to update wedding');
+      if (err.response && err.response.status === 401) {
+        handleLogout();
+        alert('Session expired. Please login again.');
+      } else {
+        alert('Failed to update wedding');
+      }
     }
   };
 
@@ -211,7 +227,12 @@ const AdminDashboard = () => {
       alert('Wedding deleted successfully!');
     } catch (err) {
       console.error('Error deleting wedding:', err);
-      alert('Failed to delete wedding');
+      if (err.response && err.response.status === 401) {
+        handleLogout();
+        alert('Session expired. Please login again.');
+      } else {
+        alert('Failed to delete wedding');
+      }
     }
   };
 
@@ -268,7 +289,7 @@ const AdminDashboard = () => {
       const res = await axios.post(`${API_URL}/api/gallery/upload`, {
         imageUrl: base64,
         aspectRatio: photoAspectRatio,
-        category: 'Wedding',
+        category: selectedWedding?.category || 'Weddings',
         weddingId: selectedWedding._id,
       }, {
         headers: getAuthHeaders(),
@@ -281,7 +302,12 @@ const AdminDashboard = () => {
       alert('Photo uploaded successfully!');
     } catch (err) {
       console.error('Error uploading photo:', err);
-      alert('Failed to upload photo: ' + (err?.response?.data?.error || err?.message));
+      if (err.response && err.response.status === 401) {
+        handleLogout();
+        alert('Session expired. Please login again.');
+      } else {
+        alert('Failed to upload photo: ' + (err?.response?.data?.error || err?.message));
+      }
     } finally {
       setUploadingPhoto(false);
     }
@@ -298,7 +324,12 @@ const AdminDashboard = () => {
       alert('Photo deleted successfully!');
     } catch (err) {
       console.error('Error deleting photo:', err);
-      alert('Failed to delete photo');
+      if (err.response && err.response.status === 401) {
+        handleLogout();
+        alert('Session expired. Please login again.');
+      } else {
+        alert('Failed to delete photo');
+      }
     }
   };
 

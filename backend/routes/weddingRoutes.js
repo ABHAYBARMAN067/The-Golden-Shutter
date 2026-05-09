@@ -9,7 +9,7 @@ const {
   deleteWedding,
 } = require('../controllers/weddingController');
 
-router.get('/', authenticateAdmin, getAllWeddings);
+router.get('/', getAllWeddings);
 router.get('/:weddingId', getWeddingWithPhotos);
 router.post('/', authenticateAdmin, createWedding);
 router.put('/:weddingId', authenticateAdmin, updateWedding);

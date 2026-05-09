@@ -519,7 +519,7 @@ const AdminDashboard = () => {
                     {(weddings.length ? weddings.slice(0, 2) : []).map((w) => (
                       <div key={w._id} className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
                         <div className="flex gap-5 items-center">
-                          <div className="w-28 h-20 rounded-xl overflow-hidden border border-white/10 bg-black/30 flex-shrink-0">
+                          <div className="w-28 h-20 overflow-hidden flex-shrink-0">
                             <img src={w.featuredImage} alt={w.coupleName} className="w-full h-full object-cover" />
                           </div>
                           <div className="flex-1">
@@ -669,7 +669,7 @@ const AdminDashboard = () => {
                             }`}
                           >
                             <div className="flex items-center gap-3">
-                              <div className="w-14 h-10 rounded-lg overflow-hidden border border-white/10 bg-black/30">
+                              <div className="w-14 h-10 overflow-hidden">
                                 {w.featuredImage ? (
                                   <img src={w.featuredImage} alt={w.coupleName} className="w-full h-full object-cover" />
                                 ) : null}
@@ -696,7 +696,7 @@ const AdminDashboard = () => {
                           <div className="col-span-full text-white/50">No photos yet</div>
                         ) : (
                           weddingPhotos.map((photo) => (
-                            <div key={photo._id} className="relative group rounded-xl overflow-hidden border border-white/10">
+                            <div key={photo._id} className="relative group overflow-hidden">
                               <img src={photo.imageUrl} alt="wedding" className="w-full h-32 object-cover" />
                               <button
                                 onClick={() => handleDeletePhoto(photo._id)}
@@ -799,7 +799,7 @@ const AdminDashboard = () => {
                         />
 
                         {(editingWedding ? editingFeaturedImagePreview : featuredImagePreview) && (
-                          <div className="mt-3 rounded-xl overflow-hidden border border-white/10">
+                          <div className="mt-3 overflow-hidden">
                             <img
                               src={editingWedding ? editingFeaturedImagePreview : featuredImagePreview}
                               alt="preview"

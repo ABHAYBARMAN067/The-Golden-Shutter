@@ -11,7 +11,7 @@ const GalleryGrid = ({ images }) => {
         return (
           <div
             key={img._id}
-            className={`${gridClass} overflow-hidden rounded-lg shadow-lg group relative`}
+            className={`${gridClass} overflow-hidden group relative`}
           >
             <img
               src={img.imageUrl}

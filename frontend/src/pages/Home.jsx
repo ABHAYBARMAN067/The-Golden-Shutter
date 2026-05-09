@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import GalleryGrid from '../components/GalleryGrid';
 import BookingModal from '../components/BookingModal';
+import ContactForm from '../components/ContactForm';
 import API_URL from '../api';
 
 const StoryCard = ({ wedding, onClick }) => {
@@ -298,7 +299,7 @@ const Home = () => {
           <h2 className="font-serif italic text-3xl sm:text-4xl">Contact</h2>
           <p className="text-white/70 mt-2">Tell us the date—let’s craft your story.</p>
 
-          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <div className="text-amber-300 text-xs tracking-widest uppercase">Studio</div>
               <div className="mt-3 text-2xl font-serif italic">THE GOLDEN SHUTTER</div>
@@ -315,17 +316,10 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <h3 className="text-lg font-serif italic text-white">Quick Inquiry</h3>
-              <p className="text-white/70 text-sm mt-2">
-                Have a question? Click below to get in touch with us directly.
-              </p>
-              <button
-                onClick={() => setBookingModalOpen(true)}
-                className="mt-6 rounded-full px-6 py-3 bg-amber-400 text-black font-semibold hover:bg-amber-300 transition-colors text-sm w-full"
-              >
-                Start Your Booking
-              </button>
+            {/* Contact Form */}
+            <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-white/5 p-6">
+              <h3 className="text-lg font-serif italic text-white mb-4">Send us a Message</h3>
+              <ContactForm />
             </div>
           </div>
         </div>

@@ -28,9 +28,11 @@ exports.getWeddingWithPhotos = async (req, res) => {
 // Create new wedding
 exports.createWedding = async (req, res) => {
   try {
-    const { coupleName, location, weddingDate, featuredImage, description } = req.body;
+    const { coupleName, location, weddingDate, featuredImage, description, videos } = req.body;
+
 
     if (!coupleName || !location || !weddingDate || !featuredImage) {
+
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -40,7 +42,9 @@ exports.createWedding = async (req, res) => {
       weddingDate,
       featuredImage,
       description,
+      videos: Array.isArray(videos) ? videos : [],
     });
+
 
     await newWedding.save();
     res.status(201).json(newWedding);
@@ -53,7 +57,8 @@ exports.createWedding = async (req, res) => {
 exports.updateWedding = async (req, res) => {
   try {
     const { weddingId } = req.params;
-    const { coupleName, location, weddingDate, featuredImage, description } = req.body;
+    const { coupleName, location, weddingDate, featuredImage, description, videos } = req.body;
+
 
     const wedding = await Wedding.findByIdAndUpdate(
       weddingId,
@@ -63,7 +68,9 @@ exports.updateWedding = async (req, res) => {
         weddingDate,
         featuredImage,
         description,
+        videos: Array.isArray(videos) ? videos : [],
         updatedAt: new Date(),
+
       },
       { new: true }
     );

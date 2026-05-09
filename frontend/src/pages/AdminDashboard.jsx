@@ -87,15 +87,32 @@ const AdminDashboard = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/api/weddings', newWeddingForm);
+      let formData = { ...newWeddingForm };
+
+      // Convert featured image file to base64 if selected
+      if (featuredImageFile) {
+        const toBase64 = (f) =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(f);
+          });
+        formData.featuredImage = await toBase64(featuredImageFile);
+      }
+
+      const res = await axios.post('http://localhost:5000/api/weddings', formData);
       setWeddings([...weddings, res.data]);
       setNewWeddingForm({
         coupleName: '',
         location: '',
         weddingDate: '',
         featuredImage: '',
+        category: 'Weddings',
         description: '',
       });
+      setFeaturedImageFile(null);
+      setFeaturedImagePreview(null);
       alert('Wedding created successfully!');
     } catch (err) {
       console.error('Error creating wedding:', err);
@@ -108,12 +125,28 @@ const AdminDashboard = () => {
     if (!editingWedding) return;
 
     try {
+      let updateData = { ...editingWedding };
+
+      // Convert featured image file to base64 if selected
+      if (editingFeaturedImageFile) {
+        const toBase64 = (f) =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(f);
+          });
+        updateData.featuredImage = await toBase64(editingFeaturedImageFile);
+      }
+
       const res = await axios.put(
         `http://localhost:5000/api/weddings/${editingWedding._id}`,
-        editingWedding
+        updateData
       );
       setWeddings(weddings.map((w) => (w._id === res.data._id ? res.data : w)));
       setEditingWedding(null);
+      setEditingFeaturedImageFile(null);
+      setEditingFeaturedImagePreview(null);
       setSelectedWedding(res.data);
       alert('Wedding updated successfully!');
     } catch (err) {
@@ -329,17 +362,46 @@ const AdminDashboard = () => {
                   <option value="Weddings">Weddings</option>
                   <option value="PreWedding">PreWedding</option>
                 </select>
-                <input
-                  type="text"
-                  placeholder="Featured Image URL (optional)"
-                  value={editingWedding ? editingWedding.featuredImage : newWeddingForm.featuredImage}
-                  onChange={(e) =>
-                    editingWedding
-                      ? setEditingWedding({ ...editingWedding, featuredImage: e.target.value })
-                      : setNewWeddingForm({ ...newWeddingForm, featuredImage: e.target.value })
-                  }
-                  className="w-full p-3 rounded-lg bg-black/20 border border-white/10 text-white text-sm"
-                />
+                
+                {/* Featured Image Upload */}
+                <div>
+                  <label className="block text-sm text-white/80 mb-2">Featured Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (editingWedding) {
+                        setEditingFeaturedImageFile(file || null);
+                        if (file) {
+                          const preview = URL.createObjectURL(file);
+                          setEditingFeaturedImagePreview(preview);
+                        } else {
+                          setEditingFeaturedImagePreview(null);
+                        }
+                      } else {
+                        setFeaturedImageFile(file || null);
+                        if (file) {
+                          const preview = URL.createObjectURL(file);
+                          setFeaturedImagePreview(preview);
+                        } else {
+                          setFeaturedImagePreview(null);
+                        }
+                      }
+                    }}
+                    className="w-full p-2 rounded-lg bg-black/20 border border-white/10 text-white text-sm"
+                  />
+                  {(editingWedding ? editingFeaturedImagePreview : featuredImagePreview) && (
+                    <div className="mt-3 rounded-lg overflow-hidden border border-white/10">
+                      <img
+                        src={editingWedding ? editingFeaturedImagePreview : featuredImagePreview}
+                        alt="preview"
+                        className="w-full h-32 object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
+
                 <textarea
                   placeholder="Description (optional)"
                   value={editingWedding ? editingWedding.description : newWeddingForm.description}
@@ -360,7 +422,11 @@ const AdminDashboard = () => {
                   {editingWedding && (
                     <button
                       type="button"
-                      onClick={() => setEditingWedding(null)}
+                      onClick={() => {
+                        setEditingWedding(null);
+                        setEditingFeaturedImageFile(null);
+                        setEditingFeaturedImagePreview(null);
+                      }}
                       className="flex-1 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
                     >
                       Cancel
@@ -391,6 +457,11 @@ const AdminDashboard = () => {
                           setEditingWedding(null);
                         }}
                       >
+                        {wedding.featuredImage && (
+                          <div className="rounded-lg overflow-hidden mb-3 h-24">
+                            <img src={wedding.featuredImage} alt={wedding.coupleName} className="w-full h-full object-cover" />
+                          </div>
+                        )}
                         <div className="flex justify-between items-start">
                           <div className="flex-1">
                             <div className="flex items-center gap-2">

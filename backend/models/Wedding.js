@@ -7,7 +7,9 @@ const weddingSchema = new mongoose.Schema({
   featuredImage: { type: String, required: true },
   category: { type: String, enum: ['PreWedding', 'Weddings'], default: 'Weddings', required: true },
   description: { type: String, default: '' },
+  videos: { type: [String], default: [] },
   createdAt: { type: Date, default: Date.now },
+
   updatedAt: { type: Date, default: Date.now },
 });
 

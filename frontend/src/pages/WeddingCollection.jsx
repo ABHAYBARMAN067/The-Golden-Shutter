@@ -141,7 +141,7 @@ const WeddingCollection = () => {
                       <img
                         src={photo.imageUrl}
                         alt={`Gallery ${idx + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                         <div className="w-12 h-12 rounded-full border border-white bg-white/10 flex items-center justify-center">

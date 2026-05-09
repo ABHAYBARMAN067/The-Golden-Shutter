@@ -1,1 +1,32 @@
 @import "tailwindcss";
+
+:root {
+  --bg: #000;
+  --text: #fff;
+  --accent: #f59e0b; /* amber-500 */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Hero slow zoom animation */
+.hero-zoom {
+  animation: heroZoom 10s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1.18);
+  }
+}
+

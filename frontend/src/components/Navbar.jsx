@@ -74,14 +74,16 @@ const Navbar = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link
-              to="/"
-              onClick={() => setOpen(false)}
-              className="text-lg sm:text-xl font-semibold tracking-tighter text-white hover:text-amber-400 transition-colors"
-            >
-              THE GOLDEN SHUTTER
-            </Link>
-          </div>
+  <Link
+    to="/"
+    onClick={() => setOpen(false)}
+    className="text-white hover:text-amber-400 transition-colors"
+  >
+    <h1 className="font-serif italic text-xl sm:text-2xl tracking-wide">
+      ASUPHOTOGRAPHY
+    </h1>
+  </Link>
+</div>
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-6">

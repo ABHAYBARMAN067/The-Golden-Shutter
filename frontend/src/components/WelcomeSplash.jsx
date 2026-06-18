@@ -24,11 +24,11 @@ const WelcomeSplash = () => {
 
       <div className="relative text-center">
         <div className="mb-6 animate-bounce">
-          <div className="w-40 h-40 rounded-full border-2 border-[#9B7653] flex items-center justify-center mx-auto">
+          <div className="w-24 h-24 rounded-full border-2 border-[#9B7653] flex items-center justify-center mx-auto">
             <img 
-              src="/logo.png" 
+              src="/logo1.png" 
               alt="The Golden Shutter Logo"
-              className="w-36 h-36 object-contain"
+              className="w-20 h-20 object-contain"
             />
           </div>
         </div>

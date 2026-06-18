@@ -79,7 +79,7 @@ const Navbar = () => {
     className="hover:opacity-80 transition-opacity"
   >
     <img 
-      src="/logo.png" 
+      src="/logo2.png" 
       alt="The Golden Shutter Logo"
       className="h-12 w-auto"
     />

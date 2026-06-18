@@ -50,6 +50,23 @@ cd frontend
 npm run build
 ```
 
+## Color Palette
+
+### Root CSS Variables (frontend/src/index.css)
+- `--bg`: #000000 (Black - Main background)
+- `--text`: #FFFFFF (White - Primary text)
+- `--card`: #1F2124 (Dark Gray - Card backgrounds)
+- `--border`: #69727D (Gray - Borders and inputs)
+- `--overlay-30`: rgba(0, 0, 0, 0.3) (30% dark overlay)
+- `--overlay-10`: rgba(0, 0, 0, 0.1) (10% dark overlay)
+
+### Brand Colors (Used throughout)
+- `#F5F1E8` (Light Cream - Secondary background)
+- `#9B7653` (Golden Brown - Accent/Primary)
+- `#2C2C2C` (Dark Charcoal - Text)
+- `#6A6A6A` (Medium Gray - Secondary text)
+- `#4A4A4A` (Dark Gray - Tertiary text)
+
 ## Scripts
 
 | Command | Purpose |

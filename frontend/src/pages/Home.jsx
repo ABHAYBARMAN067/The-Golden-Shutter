@@ -244,24 +244,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5) Portfolio */}
-      <section id="portfolio" className="py-16 bg-[#FAFAF8]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between gap-6 flex-col sm:flex-row">
-            <div>
-              <h2 className="font-serif italic text-3xl sm:text-4xl text-[#2C2C2C]">Portfolio</h2>
-              <p className="text-[#6A6A6A] mt-2">A living gallery of your favorite frames.</p>
-            </div>
-            <div className="text-[#9B7653] text-sm tracking-widest uppercase">Hover to zoom</div>
-          </div>
-
-          <div className="mt-10">
-            <GalleryGrid images={allImages} />
-          </div>
-        </div>
-      </section>
-
-      {/* 6) Films */}
+      {/* 5) Films */}
       <section id="films" className="py-16 bg-[#F5F1E8]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="font-serif italic text-3xl sm:text-4xl text-[#2C2C2C]">Films</h2>
@@ -301,6 +284,13 @@ const Home = () => {
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="rounded-3xl border border-[#9B7653]/20 bg-white p-6 shadow-sm">
+              <div className="mb-6 bg-[#F5F1E8] rounded-2xl p-6 flex items-center justify-center">
+                <img 
+                  src="/logo.png" 
+                  alt="The Golden Shutter Logo"
+                  className="h-32 w-auto"
+                />
+              </div>
               <div className="text-[#9B7653] text-xs tracking-widest uppercase">Studio</div>
               <div className="mt-3 text-2xl font-serif italic text-[#2C2C2C]">THE GOLDEN SHUTTER</div>
               <p className="text-[#6A6A6A] mt-3 text-sm leading-relaxed">

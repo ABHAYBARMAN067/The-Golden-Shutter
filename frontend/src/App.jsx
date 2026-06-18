@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import WelcomeSplash from './components/WelcomeSplash';
 import Home from './pages/Home';
 import AdminDashboard from './pages/AdminDashboard';
 import WeddingCollection from './pages/WeddingCollection';
@@ -7,6 +8,7 @@ import WeddingCollection from './pages/WeddingCollection';
 function App() {
   return (
     <Router>
+      <WelcomeSplash />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

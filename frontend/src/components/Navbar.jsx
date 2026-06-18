@@ -6,7 +6,6 @@ const NAV_ITEMS = [
   { label: 'Home', href: '/', isHashLink: false },
   { label: 'PreWedding', href: '#prewedding', isHashLink: true },
   { label: 'Weddings', href: '#weddings', isHashLink: true },
-  { label: 'Portfolio', href: '#portfolio', isHashLink: true },
   { label: 'Films', href: '#films', isHashLink: true },
   { label: 'Contact', href: '#contact', isHashLink: true },
 ];
@@ -77,11 +76,13 @@ const Navbar = () => {
       <Link
     to="/"
     onClick={() => setOpen(false)}
-    className="text-white hover:text-amber-400 transition-colors"
+    className="hover:opacity-80 transition-opacity"
   >
-    <h1 className="font-serif italic text-xl sm:text-2xl tracking-wide">
-      THE GOLDEN SHUTTER
-    </h1>
+    <img 
+      src="/logo.png" 
+      alt="The Golden Shutter Logo"
+      className="h-12 w-auto"
+    />
   </Link>
 </div>
 
@@ -96,7 +97,7 @@ const Navbar = () => {
                     e.preventDefault();
                     scrollToHash(item.href);
                   }}
-                  className="text-sm font-medium text-white/90 hover:text-amber-400 transition-colors"
+                  className="text-sm font-medium text-black/90 hover:text-amber-400 transition-colors"
                 >
                   {item.label}
                 </a>
@@ -107,7 +108,7 @@ const Navbar = () => {
                   className={`text-sm font-medium transition-colors ${
                     isActive(item.href)
                       ? 'text-amber-400'
-                      : 'text-white/90 hover:text-amber-400'
+                      : 'text-black/90 hover:text-amber-400'
                   }`}
                 >
                   {item.label}
@@ -130,7 +131,7 @@ const Navbar = () => {
           {/* Mobile hamburger */}
           <button
             type="button"
-            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 border border-white/10"
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl bg-black/5 border border-black/10"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-label="Open menu"
@@ -138,17 +139,17 @@ const Navbar = () => {
             <span className="sr-only">Menu</span>
             <div className="relative w-5 h-4">
               <span
-                className={`absolute left-0 right-0 top-0 h-0.5 bg-white transition-transform duration-200 ${
+                className={`absolute left-0 right-0 top-0 h-0.5 bg-black transition-transform duration-200 ${
                   open ? 'translate-y-1.5 rotate-45' : ''
                 }`}
               />
               <span
-                className={`absolute left-0 right-0 top-2 h-0.5 bg-white/90 transition-opacity duration-200 ${
+                className={`absolute left-0 right-0 top-2 h-0.5 bg-black/90 transition-opacity duration-200 ${
                   open ? 'opacity-0' : 'opacity-100'
                 }`}
               />
               <span
-                className={`absolute left-0 right-0 top-4 h-0.5 bg-white transition-transform duration-200 ${
+                className={`absolute left-0 right-0 top-4 h-0.5 bg-black transition-transform duration-200 ${
                   open ? '-translate-y-1.5 -rotate-45' : ''
                 }`}
               />
@@ -173,7 +174,7 @@ const Navbar = () => {
                     setOpen(false);
                     scrollToHash(item.href);
                   }}
-                  className="text-sm font-medium text-white/90 hover:text-amber-400 transition-colors py-1"
+                  className="text-sm font-medium text-black/90 hover:text-amber-400 transition-colors py-1"
                 >
                   {item.label}
                 </a>
@@ -185,7 +186,7 @@ const Navbar = () => {
                   className={`text-sm font-medium transition-colors py-1 ${
                     isActive(item.href)
                       ? 'text-amber-400'
-                      : 'text-white/90 hover:text-amber-400'
+                      : 'text-black/90 hover:text-amber-400'
                   }`}
                 >
                   {item.label}

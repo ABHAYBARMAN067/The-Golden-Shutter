@@ -12,9 +12,9 @@ const transporter = nodemailer.createTransport({
 // Verify connection
 transporter.verify((error, success) => {
   if (error) {
-    console.log('❌ Email service not configured:', error.message);
+    console.log(' Email service not configured:', error.message);
   } else {
-    console.log('✅ Email service ready');
+    console.log(' Email service ready');
   }
 });
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import BookingModal from './BookingModal';
 
@@ -74,13 +74,13 @@ const Navbar = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
-  <Link
+      <Link
     to="/"
     onClick={() => setOpen(false)}
     className="text-white hover:text-amber-400 transition-colors"
   >
     <h1 className="font-serif italic text-xl sm:text-2xl tracking-wide">
-      ASUPHOTOGRAPHY
+      THE GOLDEN SHUTTER
     </h1>
   </Link>
 </div>

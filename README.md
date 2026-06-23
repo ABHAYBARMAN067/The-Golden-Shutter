@@ -3,7 +3,7 @@
 A modern wedding photography booking platform with elegant gallery, booking management, and seamless user experience.
 ## Screenshot
 
-![The Golden Shutter Screenshot](frontend/Screenshots/image.png)
+![The Golden Shutter Screenshot](frontend/public/image.png)
 
 ## Tech Stack
 

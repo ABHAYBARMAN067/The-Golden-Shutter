@@ -1,7 +1,8 @@
 ﻿# The Golden Shutter
 
 A modern wedding photography booking platform with elegant gallery, booking management, and seamless user experience.
-
+## Screenshot
+frontend/Screenshots/image.png
 ## Tech Stack
 
 **Frontend:** React 19, Vite, Tailwind CSS, Axios

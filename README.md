@@ -111,8 +111,3 @@ EMAIL_PASSWORD=your_app_password
 - Authentication system
 - Modern UI with Tailwind CSS
 
-## License
-
-ISC
-
-Built by The Golden Shutter Team

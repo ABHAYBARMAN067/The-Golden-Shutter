@@ -111,3 +111,33 @@ EMAIL_PASSWORD=your_app_password
 - Authentication system
 - Modern UI with Tailwind CSS
 
+
+## Hosting
+
+### Backend (Render)
+
+Deploy the backend application to Render.
+
+Configure the required environment variables in the Render dashboard:
+
+* `PORT` (optional)
+* `MONGO_URI`
+* `CLOUDINARY_CLOUD_NAME`
+* `CLOUDINARY_API_KEY`
+* `CLOUDINARY_API_SECRET`
+* `EMAIL_USER`
+* `EMAIL_PASSWORD`
+
+> Never commit `.env` files or secret credentials to the repository.
+
+### Frontend (Vercel)
+
+Deploy the frontend application to Vercel.
+
+Configure the following environment variable:
+
+* `VITE_API_URL` = Backend API base URL
+
+#### Example
+
+Frontend requests should be routed through the configured backend API URL.

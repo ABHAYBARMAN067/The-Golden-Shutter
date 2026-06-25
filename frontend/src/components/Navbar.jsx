@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import BookingModal from './BookingModal';
-
+import logo2 from "../assets/logo2.png";
 const NAV_ITEMS = [
   { label: 'Home', href: '/', isHashLink: false },
   { label: 'PreWedding', href: '#prewedding', isHashLink: true },
@@ -75,14 +75,15 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             <Link
               to="/"
-              onClick={() => setOpen(false)}
+                onClick={() => setOpen(false)}
               className="hover:opacity-80 transition-opacity"
             >
               <img
-                src="/logo2.png"
-                alt="The Golden Shutter Logo"
-                className="h-12 w-auto"
-              />
+                src={logo2}
+            alt="The Golden Shutter Logo"
+              className="h-12 w-auto object-contain"
+              loading="eager"
+                        />
             </Link>
           </div>
 

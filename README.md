@@ -128,7 +128,6 @@ Configure the required environment variables in the Render dashboard:
 * `EMAIL_USER`
 * `EMAIL_PASSWORD`
 
-> Never commit `.env` files or secret credentials to the repository.
 
 ### Frontend (Vercel)
 

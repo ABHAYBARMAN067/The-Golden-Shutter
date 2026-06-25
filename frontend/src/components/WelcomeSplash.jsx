@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import logo1 from '../assets/logo1.png';
 
 const WelcomeSplash = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -25,8 +26,8 @@ const WelcomeSplash = () => {
       <div className="relative text-center">
         <div className="mb-6 animate-bounce">
           <div className="w-24 h-24 rounded-full border-2 border-[#9B7653] flex items-center justify-center mx-auto">
-            <img 
-              src="/logo1.png" 
+            <imgt a
+              src={logo1}
               alt="The Golden Shutter Logo"
               className="w-20 h-20 object-contain"
             />
@@ -92,3 +93,4 @@ const WelcomeSplash = () => {
 };
 
 export default WelcomeSplash;
+

@@ -53,7 +53,7 @@ const ContactForm = ({ onClose = () => {} }) => {
     }
   };
 
-  return (
+    return (
     <div className="w-full max-w-2xl mx-auto">
       {/* Status Messages */}
       {status === 'success' && (
@@ -66,7 +66,7 @@ const ContactForm = ({ onClose = () => {} }) => {
           Failed to send message. Please try again.
         </div>
       )}
-
+ 
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Name */}

@@ -2,8 +2,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const getAdminCredentials = () => ({
-  username: process.env.ADMIN_USER || 'admin',
-  password: process.env.ADMIN_PASS || 'password',
+  username: process.env.ADMIN_USER,
+  password: process.env.ADMIN_PASS,
 });
 
 const authenticateAdmin = (req, res, next) => {
@@ -14,7 +14,6 @@ const authenticateAdmin = (req, res, next) => {
 
   const token = authHeader.split(' ')[1];
 
-  // Token format is `${username}:${password}` base64-encoded (see /api/auth/login)
   try {
     const decoded = Buffer.from(token, 'base64').toString('utf8');
     const [username, password] = decoded.split(':');

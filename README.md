@@ -11,21 +11,22 @@ A modern wedding photography booking platform with elegant gallery, booking mana
 **Frontend:** React 19, Vite, Tailwind CSS, Axios
 **Backend:** Node.js, Express 5, MongoDB (Mongoose), Cloudinary, Nodemailer
 
-## Necessary NPM Packages
+## Dependencies
 
 ### Frontend
+> Run inside `frontend/`
 
 ```bash
-npm install react react-dom react-router-dom axios
-npm install -D vite tailwindcss @tailwindcss/vite eslint
+npm install
 ```
 
 ### Backend
+> Run inside `backend/`
 
 ```bash
-npm install express mongoose cors dotenv cloudinary multer multer-storage-cloudinary nodemailer jsonwebtoken bcryptjs cookie-parser express-validator morgan
-npm install -D nodemon
+npm install
 ```
+
 
 ## Quick Start
 

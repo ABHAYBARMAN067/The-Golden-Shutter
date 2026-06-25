@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import API_URL from '../api';
 
@@ -52,14 +52,16 @@ const BookingModal = ({ isOpen, onClose }) => {
   };
 
   if (!isOpen) return null;
-return (
-  <div className="fixed inset-0 z-50 bg-[#9B7653]/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div className="relative bg-[#9B7653] border border-white/10 rounded-3xl p-6 md:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto">
-      
+
+
+  return (
+  <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div className="relative bg-[#F5F1E8] border border-gray-200 rounded-3xl p-6 md:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors"
+        className="absolute top-6 right-6 text-[#2C2C2C]/80 hover:text-[#2C2C2C] transition-colors"
         aria-label="Close modal"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,26 +74,31 @@ return (
         </svg>
       </button>
 
-      <h2 className="text-3xl font-serif italic text-white">Book Your Shoot</h2>
-      <p className="text-white/70 mt-2">
+      <h2 className="text-3xl font-serif italic text-[#2C2C2C]">
+        Book Your Shoot
+      </h2>
+
+      <p className="text-[#2C2C2C]/70 mt-2">
         Share your details and we'll get back to you shortly.
       </p>
 
       {successMessage && (
-        <div className="mt-4 p-4 rounded-2xl bg-green-500/20 border border-green-500/50 text-green-300">
+        <div className="mt-4 p-4 rounded-2xl bg-green-500/20 border border-green-500/50 text-green-700">
           {successMessage}
         </div>
       )}
 
       {errorMessage && (
-        <div className="mt-4 p-4 rounded-2xl bg-red-500/20 border border-red-500/50 text-red-300">
+        <div className="mt-4 p-4 rounded-2xl bg-red-500/20 border border-red-500/50 text-red-700">
           {errorMessage}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
-          <label className="block text-sm text-white/70 mb-2">Name</label>
+          <label className="block text-sm text-[#2C2C2C]/70 mb-2">
+            Name
+          </label>
           <input
             type="text"
             name="name"
@@ -99,12 +106,14 @@ return (
             onChange={handleChange}
             placeholder="Your Name"
             required
-            className="w-full rounded-2xl bg-black/20 border border-white/10 p-3 text-white placeholder-white/40 focus:border-amber-400/50 focus:outline-none transition-colors"
+            className="w-full rounded-2xl bg-white border border-gray-300 p-3 text-[#2C2C2C] placeholder-gray-500 focus:border-amber-400/50 focus:outline-none transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm text-white/70 mb-2">Phone</label>
+          <label className="block text-sm text-[#2C2C2C]/70 mb-2">
+            Phone
+          </label>
           <input
             type="tel"
             name="phone"
@@ -112,24 +121,28 @@ return (
             onChange={handleChange}
             placeholder="+91 98765 43210"
             required
-            className="w-full rounded-2xl bg-black/20 border border-white/10 p-3 text-white placeholder-white/40 focus:border-amber-400/50 focus:outline-none transition-colors"
+            className="w-full rounded-2xl bg-white border border-gray-300 p-3 text-[#2C2C2C] placeholder-gray-500 focus:border-amber-400/50 focus:outline-none transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm text-white/70 mb-2">Wedding Date</label>
+          <label className="block text-sm text-[#2C2C2C]/70 mb-2">
+            Wedding Date
+          </label>
           <input
             type="date"
             name="weddingDate"
             value={formData.weddingDate}
             onChange={handleChange}
             required
-            className="w-full rounded-2xl bg-black/20 border border-white/10 p-3 text-white focus:border-amber-400/50 focus:outline-none transition-colors"
+            className="w-full rounded-2xl bg-white border border-gray-300 p-3 text-[#2C2C2C] focus:border-amber-400/50 focus:outline-none transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm text-white/70 mb-2">Location</label>
+          <label className="block text-sm text-[#2C2C2C]/70 mb-2">
+            Location
+          </label>
           <input
             type="text"
             name="location"
@@ -137,19 +150,21 @@ return (
             onChange={handleChange}
             placeholder="Wedding Location"
             required
-            className="w-full rounded-2xl bg-black/20 border border-white/10 p-3 text-white placeholder-white/40 focus:border-amber-400/50 focus:outline-none transition-colors"
+            className="w-full rounded-2xl bg-white border border-gray-300 p-3 text-[#2C2C2C] placeholder-gray-500 focus:border-amber-400/50 focus:outline-none transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm text-white/70 mb-2">Message</label>
+          <label className="block text-sm text-[#2C2C2C]/70 mb-2">
+            Message
+          </label>
           <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
             placeholder="Tell us about your story..."
             rows="4"
-            className="w-full rounded-2xl bg-black/20 border border-white/10 p-3 text-white placeholder-white/40 focus:border-amber-400/50 focus:outline-none transition-colors resize-none"
+            className="w-full rounded-2xl bg-white border border-gray-300 p-3 text-[#2C2C2C] placeholder-gray-500 focus:border-amber-400/50 focus:outline-none transition-colors resize-none"
           />
         </div>
 

@@ -1,14 +1,31 @@
 ﻿# The Golden Shutter
 
 A modern wedding photography booking platform with elegant gallery, booking management, and seamless user experience.
+
 ## Screenshot
 
-![The Golden Shutter Screenshot](frontend/public/image.png)
+![The Golden Shutter Screenshot](frontend/Screenshots/image.png)
 
 ## Tech Stack
 
 **Frontend:** React 19, Vite, Tailwind CSS, Axios
 **Backend:** Node.js, Express 5, MongoDB (Mongoose), Cloudinary, Nodemailer
+
+## Necessary NPM Packages
+
+### Frontend
+
+```bash
+npm install react react-dom react-router-dom axios
+npm install -D vite tailwindcss @tailwindcss/vite eslint
+```
+
+### Backend
+
+```bash
+npm install express mongoose cors dotenv cloudinary multer multer-storage-cloudinary nodemailer jsonwebtoken bcryptjs cookie-parser express-validator morgan
+npm install -D nodemon
+```
 
 ## Quick Start
 

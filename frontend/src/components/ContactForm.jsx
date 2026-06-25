@@ -58,14 +58,15 @@ const ContactForm = ({ onClose = () => {} }) => {
       {/* Status Messages */}
       {status === 'success' && (
         <div className="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300">
-          ✓ Message sent successfully! We'll get back to you soon.
+           Message sent successfully! We'll get back to you soon.
         </div>
       )}
       {status === 'error' && (
         <div className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300">
-          ✗ Failed to send message. Please try again.
+          Failed to send message. Please try again.
         </div>
       )}
+
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Name */}

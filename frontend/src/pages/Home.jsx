@@ -5,6 +5,8 @@ import GalleryGrid from '../components/GalleryGrid';
 import BookingModal from '../components/BookingModal';
 import ContactForm from '../components/ContactForm';
 import API_URL from '../api';
+import logo1 from '../assets/logo1.png';
+
 
 const StoryCard = ({ wedding, onClick }) => {
   return (
@@ -285,8 +287,8 @@ const Home = () => {
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="rounded-3xl border border-[#9B7653]/20 bg-white p-6 shadow-sm">
               <div className="mb-6 bg-[#F5F1E8] rounded-2xl p-6 flex items-center justify-center">
-                <img 
-                  src="/logo1.png" 
+                <img
+                  src={logo1}
                   alt="The Golden Shutter Logo"
                   className="h-32 w-auto"
                 />

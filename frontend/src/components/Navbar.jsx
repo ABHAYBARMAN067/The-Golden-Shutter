@@ -84,6 +84,7 @@ const Navbar = () => {
               className="h-12 w-auto object-contain"
               loading="eager"
                         />
+                        
             </Link>
           </div>
 
